@@ -1,0 +1,2125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6 Levels of Mastering Claude Code</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ── DARK THEMES ── */
+  :root, [data-theme="navy"] {
+    --bg-deep: #0a0e1a;
+    --bg-card: #0f1628;
+    --bg-modal: #0d1525;
+    --border-glow: #1a3a5c;
+    --border-bright: #2a5a8c;
+    --text-primary: #e0e6f0;
+    --text-secondary: #8899b0;
+    --text-muted: #5a6a80;
+    --accent-blue: #70a0d0;
+    --accent-cyan: #60c0d0;
+    --accent-red: #e05070;
+    --accent-green: #40d0a0;
+    --accent-purple: #9080e0;
+    --line-color: #1a3050;
+    --nav-bg: rgba(10, 14, 26, 0.95);
+    --overlay-bg: rgba(5, 8, 18, 0.85);
+    --card-shadow: rgba(20, 60, 100, 0.15);
+    --dot-glow: rgba(96, 192, 208, 0.4);
+  }
+
+  [data-theme="midnight"] {
+    --bg-deep: #08080c;
+    --bg-card: #111118;
+    --bg-modal: #0e0e14;
+    --border-glow: #252530;
+    --border-bright: #404058;
+    --text-primary: #e8e8f0;
+    --text-secondary: #9090a8;
+    --text-muted: #606078;
+    --accent-blue: #6088e0;
+    --accent-cyan: #50b8d0;
+    --accent-red: #f06080;
+    --accent-green: #50d8a0;
+    --accent-purple: #a08af0;
+    --line-color: #1e1e2a;
+    --nav-bg: rgba(8, 8, 12, 0.95);
+    --overlay-bg: rgba(4, 4, 8, 0.88);
+    --card-shadow: rgba(10, 10, 30, 0.25);
+    --dot-glow: rgba(80, 184, 208, 0.4);
+  }
+
+  [data-theme="ember"] {
+    --bg-deep: #140e0a;
+    --bg-card: #1c1410;
+    --bg-modal: #18120e;
+    --border-glow: #3a2820;
+    --border-bright: #5a4030;
+    --text-primary: #f0e4d8;
+    --text-secondary: #b0988a;
+    --text-muted: #7a6858;
+    --accent-blue: #70a0c0;
+    --accent-cyan: #60b0a0;
+    --accent-red: #e06040;
+    --accent-green: #60c070;
+    --accent-purple: #b080c0;
+    --line-color: #2a2018;
+    --nav-bg: rgba(20, 14, 10, 0.95);
+    --overlay-bg: rgba(12, 8, 5, 0.88);
+    --card-shadow: rgba(40, 20, 10, 0.2);
+    --dot-glow: rgba(96, 176, 160, 0.4);
+  }
+
+  /* ── LIGHT THEMES ── */
+  [data-theme="frost"] {
+    --bg-deep: #f0f3f8;
+    --bg-card: #ffffff;
+    --bg-modal: #f6f8fc;
+    --border-glow: #c8d4e2;
+    --border-bright: #90a4be;
+    --text-primary: #1a2540;
+    --text-secondary: #4a5a72;
+    --text-muted: #8090a8;
+    --accent-blue: #3070b0;
+    --accent-cyan: #1a8a9a;
+    --accent-red: #c0304a;
+    --accent-green: #1a8a5a;
+    --accent-purple: #6050c0;
+    --line-color: #d0d8e4;
+    --nav-bg: rgba(240, 243, 248, 0.95);
+    --overlay-bg: rgba(240, 243, 248, 0.88);
+    --card-shadow: rgba(20, 40, 80, 0.08);
+    --dot-glow: rgba(26, 138, 154, 0.4);
+  }
+
+  [data-theme="parchment"] {
+    --bg-deep: #f5f0ea;
+    --bg-card: #fffdf8;
+    --bg-modal: #faf6f0;
+    --border-glow: #d4c8b8;
+    --border-bright: #a09080;
+    --text-primary: #2a2420;
+    --text-secondary: #5a5048;
+    --text-muted: #908070;
+    --accent-blue: #406090;
+    --accent-cyan: #1a7a8a;
+    --accent-red: #b83040;
+    --accent-green: #2a7a50;
+    --accent-purple: #6048a0;
+    --line-color: #ddd4c8;
+    --nav-bg: rgba(245, 240, 234, 0.95);
+    --overlay-bg: rgba(245, 240, 234, 0.88);
+    --card-shadow: rgba(40, 30, 20, 0.06);
+    --dot-glow: rgba(26, 122, 138, 0.4);
+  }
+
+  [data-theme="steel"] {
+    --bg-deep: #eaeef2;
+    --bg-card: #f8f9fb;
+    --bg-modal: #f0f2f6;
+    --border-glow: #bcc6d4;
+    --border-bright: #8a98ac;
+    --text-primary: #121820;
+    --text-secondary: #3a4858;
+    --text-muted: #7888a0;
+    --accent-blue: #2060a0;
+    --accent-cyan: #0a7a90;
+    --accent-red: #d03050;
+    --accent-green: #0a7a50;
+    --accent-purple: #5040b0;
+    --line-color: #c8d0dc;
+    --nav-bg: rgba(234, 238, 242, 0.95);
+    --overlay-bg: rgba(234, 238, 242, 0.88);
+    --card-shadow: rgba(10, 20, 40, 0.06);
+    --dot-glow: rgba(10, 122, 144, 0.4);
+  }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    user-select: none;
+  }
+
+  /* ── Slide container ── */
+  .slides-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    padding: 2rem;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .slide.exit-left {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* ── Title slide ── */
+  .title-slide {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .title-slide h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, #60c0d0, #7090e0, #a070d0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .title-slide .subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.3rem);
+    color: var(--text-secondary);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+  }
+
+  .title-slide .level-dots {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .title-slide .level-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border-glow);
+    transition: background 0.3s;
+  }
+
+  .title-slide .level-dot:nth-child(1) { background: #e05070; }
+  .title-slide .level-dot:nth-child(2) { background: #d07040; }
+  .title-slide .level-dot:nth-child(3) { background: #c0a030; }
+  .title-slide .level-dot:nth-child(4) { background: #60b060; }
+  .title-slide .level-dot:nth-child(5) { background: #5090d0; }
+  .title-slide .level-dot:nth-child(6) { background: #9070d0; }
+
+  .title-slide .start-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 2rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ── Level card ── */
+  .card {
+    width: 100%;
+    max-width: 720px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 12px;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    box-shadow:
+      0 0 30px var(--card-shadow),
+      inset 0 1px 0 rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--level-color, var(--accent-blue)), transparent);
+    opacity: 0.6;
+  }
+
+  .card .level-number {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 700;
+    color: var(--level-color, var(--accent-blue));
+    opacity: 0.08;
+    line-height: 1;
+  }
+
+  .card h2 {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+
+  .card .tagline {
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+    color: var(--accent-blue);
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+    font-style: italic;
+  }
+
+  .card .divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-color), transparent);
+    margin: 1rem 0;
+  }
+
+  .card .section-title {
+    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+  }
+
+  .card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0.2rem;
+  }
+
+  .card ul li {
+    font-size: clamp(0.75rem, 1.4vw, 0.88rem);
+    color: var(--text-secondary);
+    padding: 0.2rem 0;
+    padding-left: 1.2em;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .card ul li::before {
+    content: '\00b7';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+    font-size: 1.2em;
+  }
+
+  .card .skills-list li::before {
+    content: '[ ]';
+    font-size: 0.8em;
+    color: var(--text-muted);
+    left: -0.2em;
+  }
+
+  .card .skills-list li {
+    padding-left: 2.5em;
+  }
+
+  .card .trap-title {
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+    font-weight: 700;
+    color: var(--accent-red);
+    margin-bottom: 0.4rem;
+  }
+
+  .card .trap-body {
+    font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  .card .unlock-title {
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+    font-weight: 700;
+    color: var(--accent-green);
+    margin-bottom: 0.4rem;
+  }
+
+  .card .unlock-body {
+    font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  .card .journey-title {
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+    font-weight: 700;
+    color: var(--accent-purple);
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Level-specific colors ── */
+  .level-1 { --level-color: #e05070; }
+  .level-2 { --level-color: #d07040; }
+  .level-3 { --level-color: #c0a030; }
+  .level-4 { --level-color: #50b060; }
+  .level-5 { --level-color: #5090d0; }
+  .level-6 { --level-color: #9070d0; }
+
+  .level-1 .tagline { color: #e07090; }
+  .level-2 .tagline { color: #e09060; }
+  .level-3 .tagline { color: #d0b050; }
+  .level-4 .tagline { color: #60c070; }
+  .level-5 .tagline { color: #70a0e0; }
+  .level-6 .tagline { color: #a080e0; }
+
+  /* ── Trap link styling ── */
+  .trap-link {
+    cursor: pointer;
+    border-bottom: 1px dashed rgba(224, 80, 112, 0.4);
+    transition: all 0.2s;
+    display: inline;
+  }
+
+  .trap-link:hover {
+    color: var(--accent-red);
+    border-bottom-color: var(--accent-red);
+    opacity: 1 !important;
+  }
+
+  .trap-link-hint {
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .trap-body:hover + .trap-link-hint,
+  .trap-link-hint:hover {
+    opacity: 1;
+  }
+
+  /* ── Skill link styling ── */
+  .skill-link {
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .skill-link::after {
+    content: '\2197';
+    font-size: 0.65em;
+    margin-left: 0.3em;
+    color: var(--accent-cyan);
+    opacity: 0;
+    transition: opacity 0.2s;
+    vertical-align: super;
+  }
+
+  .skill-link:hover {
+    color: var(--accent-cyan) !important;
+  }
+
+  .skill-link:hover::after {
+    opacity: 1;
+  }
+
+  /* ── Skill modal accent ── */
+  .modal-overlay.skill-modal .modal-header {
+    color: var(--accent-cyan);
+  }
+
+  .modal-overlay.skill-modal .modal-divider {
+    background: linear-gradient(90deg, var(--accent-cyan), transparent);
+  }
+
+  .modal-overlay.skill-modal .modal-body ul li::before {
+    background: var(--accent-cyan);
+  }
+
+  .modal-overlay.skill-modal .modal-body .key-insight {
+    background: rgba(96, 192, 208, 0.08);
+    border-left-color: rgba(96, 192, 208, 0.3);
+  }
+
+  /* ── Modal overlay ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 2rem;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    background: var(--bg-modal);
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    max-width: 700px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    box-shadow:
+      0 0 60px var(--card-shadow),
+      0 0 40px var(--card-shadow);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s ease;
+    position: relative;
+    user-select: text;
+  }
+
+  .modal-overlay.open .modal-content {
+    transform: translateY(0) scale(1);
+  }
+
+  /* Scrollbar styling for modal */
+  .modal-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .modal-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb {
+    background: var(--border-glow);
+    border-radius: 3px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--border-bright);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: 1px solid var(--border-glow);
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .modal-close:hover {
+    color: var(--text-primary);
+    border-color: var(--border-bright);
+    background: rgba(30, 50, 80, 0.3);
+  }
+
+  .modal-header {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+    color: var(--accent-red);
+    margin-bottom: 0.3rem;
+    padding-right: 2.5rem;
+  }
+
+  .modal-level-tag {
+    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-red), transparent);
+    opacity: 0.3;
+    margin: 1.2rem 0;
+  }
+
+  .modal-body p {
+    font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .modal-body h3 {
+    font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 1.4rem;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.03em;
+  }
+
+  .modal-body ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  .modal-body ul li {
+    font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+    color: var(--text-secondary);
+    padding: 0.25rem 0;
+    padding-left: 1.5em;
+    position: relative;
+    line-height: 1.65;
+  }
+
+  .modal-body ul li::before {
+    content: '';
+    position: absolute;
+    left: 0.2em;
+    top: 0.7em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    opacity: 0.5;
+  }
+
+  .modal-body strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .modal-body .highlight-stat {
+    color: var(--accent-cyan);
+    font-weight: 500;
+  }
+
+  .modal-body .key-insight {
+    background: rgba(224, 80, 112, 0.08);
+    border-left: 2px solid rgba(224, 80, 112, 0.3);
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .modal-body .key-insight p {
+    margin-bottom: 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  /* ── Navigation ── */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(transparent, var(--nav-bg));
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: rgba(30, 50, 80, 0.5);
+    border: 1px solid var(--border-glow);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: rgba(40, 70, 110, 0.6);
+    color: var(--text-primary);
+    border-color: var(--border-bright);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .progress-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-glow);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .progress-dot:hover {
+    background: var(--text-muted);
+    transform: scale(1.3);
+  }
+
+  .progress-dot.active {
+    background: var(--accent-cyan);
+    box-shadow: 0 0 8px var(--dot-glow);
+    transform: scale(1.3);
+  }
+
+  .slide-counter {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    min-width: 3rem;
+    text-align: center;
+  }
+
+  /* ── Ambient background ── */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--accent-blue) 3%, transparent) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--accent-purple) 3%, transparent) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .card { padding: 1.2rem; }
+    .nav-bar { padding: 0.8rem 1rem; gap: 0.8rem; }
+    .modal-overlay { padding: 1rem; }
+    .modal-content { padding: 1.2rem; }
+  }
+
+  /* ── Theme selector ── */
+  .theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 200;
+  }
+
+  .theme-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .theme-btn:hover {
+    border-color: var(--border-bright);
+    color: var(--text-primary);
+  }
+
+  .theme-btn .theme-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+
+  .theme-dropdown {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 8px;
+    padding: 0.4rem;
+    min-width: 160px;
+    box-shadow: 0 8px 24px var(--card-shadow);
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: all 0.2s;
+  }
+
+  .theme-dropdown.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .theme-dropdown-label {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.5rem 0.2rem;
+    text-transform: uppercase;
+  }
+
+  .theme-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+
+  .theme-option:hover {
+    background: var(--border-glow);
+    color: var(--text-primary);
+  }
+
+  .theme-option.active {
+    color: var(--accent-cyan);
+  }
+
+  .theme-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(128,128,128,0.3);
+    flex-shrink: 0;
+  }
+
+  .theme-divider {
+    height: 1px;
+    background: var(--border-glow);
+    margin: 0.3rem 0.2rem;
+  }
+
+  /* ── Closing slide ── */
+  .closing-content {
+    text-align: center;
+    max-width: 650px;
+  }
+
+  .closing-content h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #e05070, #d07040, #c0a030, #50b060, #5090d0, #9070d0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+  }
+
+  .closing-content .journey-map {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .journey-map .jm-level {
+    font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid;
+    font-weight: 500;
+  }
+
+  .journey-map .jm-arrow {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+
+  .jm-level.jm-1 { color: #e05070; border-color: rgba(224, 80, 112, 0.3); }
+  .jm-level.jm-2 { color: #d07040; border-color: rgba(208, 112, 64, 0.3); }
+  .jm-level.jm-3 { color: #c0a030; border-color: rgba(192, 160, 48, 0.3); }
+  .jm-level.jm-4 { color: #50b060; border-color: rgba(80, 176, 96, 0.3); }
+  .jm-level.jm-5 { color: #5090d0; border-color: rgba(80, 144, 208, 0.3); }
+  .jm-level.jm-6 { color: #9070d0; border-color: rgba(144, 112, 208, 0.3); }
+
+  .closing-content .closing-quote {
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .closing-content .closing-quote strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  .closing-content .less-is-more {
+    margin-top: 2rem;
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
+    color: var(--accent-cyan);
+    letter-spacing: 0.15em;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<!-- ── Theme selector ── -->
+<div class="theme-toggle">
+  <button class="theme-btn" onclick="toggleThemeDropdown()">
+    <span class="theme-icon" id="themeIcon">&#9790;</span>
+    <span id="themeName">Navy</span>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown">
+    <div class="theme-dropdown-label">Dark</div>
+    <button class="theme-option active" data-theme="navy" onclick="setTheme('navy')">
+      <span class="theme-swatch" style="background:#0a0e1a"></span> Navy
+    </button>
+    <button class="theme-option" data-theme="midnight" onclick="setTheme('midnight')">
+      <span class="theme-swatch" style="background:#08080c"></span> Midnight
+    </button>
+    <button class="theme-option" data-theme="ember" onclick="setTheme('ember')">
+      <span class="theme-swatch" style="background:#140e0a"></span> Ember
+    </button>
+    <div class="theme-divider"></div>
+    <div class="theme-dropdown-label">Light</div>
+    <button class="theme-option" data-theme="frost" onclick="setTheme('frost')">
+      <span class="theme-swatch" style="background:#f0f3f8"></span> Frost
+    </button>
+    <button class="theme-option" data-theme="parchment" onclick="setTheme('parchment')">
+      <span class="theme-swatch" style="background:#f5f0ea"></span> Parchment
+    </button>
+    <button class="theme-option" data-theme="steel" onclick="setTheme('steel')">
+      <span class="theme-swatch" style="background:#eaeef2"></span> Steel
+    </button>
+  </div>
+</div>
+
+<!-- ── Modal ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-content" id="modalContent">
+    <button class="modal-close" onclick="closeModal(event, true)">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-level-tag" id="modalLevelTag"></div>
+    <div class="modal-divider"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="slides-wrapper" id="slidesWrapper">
+
+  <!-- SLIDE 0: Title -->
+  <div class="slide title-slide active" data-index="0">
+    <h1>6 LEVELS OF MASTERING<br>CLAUDE CODE</h1>
+    <div class="subtitle">From prompter to orchestrator</div>
+    <div class="level-dots">
+      <div class="level-dot"></div>
+      <div class="level-dot"></div>
+      <div class="level-dot"></div>
+      <div class="level-dot"></div>
+      <div class="level-dot"></div>
+      <div class="level-dot"></div>
+    </div>
+    <div class="start-hint">Press &rarr; or click to begin</div>
+  </div>
+
+  <!-- SLIDE 1: Level 1 -->
+  <div class="slide" data-index="1">
+    <div class="card level-1">
+      <div class="level-number">1</div>
+      <h2>LEVEL 1: THE PROMPTER</h2>
+      <div class="tagline">"Claude is a tool"</div>
+      <div class="divider"></div>
+
+      <div class="section-title">YOU'RE HERE WHEN ...</div>
+      <ul>
+        <li>You open Claude Code and immediately start prompting &mdash; no setup, no context</li>
+        <li>"Build me a landing page" &mdash; one shot</li>
+        <li>You see Claude as command &gt; output</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="section-title">SKILLS TO MASTER</div>
+      <ul class="skills-list">
+        <li class="skill-link" onclick="openModal('skill1a')">Writing clear, specific prompts</li>
+        <li class="skill-link" onclick="openModal('skill1b')">Reading and evaluating Claude's output</li>
+        <li class="skill-link" onclick="openModal('skill1c')">Basic terminal literacy</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="trap-title">TRAP: Regression to the Mean</div>
+      <div class="trap-body trap-link" onclick="openModal('trap1')">
+        No context = Claude guesses everything.<br>
+        Guessing = average of training data = slop.<br>
+        This is where 90% of people live.
+      </div>
+      <div class="trap-link-hint">Click to learn more</div>
+      <div class="divider"></div>
+
+      <div class="unlock-title">UNLOCK &gt; Level 2:</div>
+      <div class="unlock-body">
+        Stop commanding. Start asking Claude to plan WITH you.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Level 2 -->
+  <div class="slide" data-index="2">
+    <div class="card level-2">
+      <div class="level-number">2</div>
+      <h2>LEVEL 2: THE PLANNER</h2>
+      <div class="tagline">"Claude is a partner"</div>
+      <div class="divider"></div>
+
+      <div class="section-title">YOU'RE HERE WHEN ...</div>
+      <ul>
+        <li>You use Plan Mode before building</li>
+        <li>You ask "What am I missing here?"</li>
+        <li>You discuss architecture before writing a single line of code</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="section-title">SKILLS TO MASTER</div>
+      <ul class="skills-list">
+        <li class="skill-link" onclick="openModal('skill2a')">Plan Mode + extended thinking</li>
+        <li class="skill-link" onclick="openModal('skill2b')">Collaborative questioning: "What would an expert think here that I'm not?"</li>
+        <li class="skill-link" onclick="openModal('skill2c')">Letting Claude push back on your ideas</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="trap-title">TRAP: Planning Blind</div>
+      <div class="trap-body trap-link" onclick="openModal('trap2')">
+        Great conversation, but Claude is still guessing about your project, your stack, your preferences. Words aren't enough.
+      </div>
+      <div class="trap-link-hint">Click to learn more</div>
+      <div class="divider"></div>
+
+      <div class="unlock-title">UNLOCK &gt; Level 3:</div>
+      <div class="unlock-body">
+        The conversation doesn't matter if Claude doesn't have the right information.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Level 3 -->
+  <div class="slide" data-index="3">
+    <div class="card level-3">
+      <div class="level-number">3</div>
+      <h2>LEVEL 3: THE CONTEXT ENGINEER</h2>
+      <div class="tagline">"You're not a coder &mdash; you're a curator"</div>
+      <div class="divider"></div>
+
+      <div class="section-title">YOU'RE HERE WHEN ...</div>
+      <ul>
+        <li>You write and maintain CLAUDE.md files</li>
+        <li>You think about what Claude sees vs what it doesn't</li>
+        <li>You use /clear between tasks</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="section-title">SKILLS TO MASTER</div>
+      <ul class="skills-list">
+        <li class="skill-link" onclick="openModal('skill3a')">Lean CLAUDE.md (not bloated)</li>
+        <li class="skill-link" onclick="openModal('skill3b')">Few-shot examples over long instructions</li>
+        <li class="skill-link" onclick="openModal('skill3c')">Context window management + /clear</li>
+        <li class="skill-link" onclick="openModal('skill3d')">Right context at the right moment</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="trap-title">TRAP: Bloated CLAUDE.md</div>
+      <div class="trap-body trap-link" onclick="openModal('trap3')">
+        ETH Zurich: LLM-generated context files made agents WORSE in 5/8 settings. Less is more. (1 of 3)
+      </div>
+      <div class="trap-link-hint">Click to learn more</div>
+      <div class="divider"></div>
+
+      <div class="unlock-title">UNLOCK &gt; Level 4:</div>
+      <div class="unlock-body">
+        You need capabilities beyond what Claude has natively. Time to go outside.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Level 4 -->
+  <div class="slide" data-index="4">
+    <div class="card level-4">
+      <div class="level-number">4</div>
+      <h2>LEVEL 4: THE TOOLSMITH</h2>
+      <div class="tagline">"You equip Claude"</div>
+      <div class="divider"></div>
+
+      <div class="section-title">YOU'RE HERE WHEN ...</div>
+      <ul>
+        <li>You install MCPs (Supabase, Figma, Playwright)</li>
+        <li>You connect Claude to the outside world</li>
+        <li>You experiment with frameworks</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="section-title">SKILLS TO MASTER</div>
+      <ul class="skills-list">
+        <li class="skill-link" onclick="openModal('skill4a')">Surgical MCP selection (right tool, right job, per project)</li>
+        <li class="skill-link" onclick="openModal('skill4b')">Understanding building blocks (frontend/backend/auth/data)</li>
+        <li class="skill-link" onclick="openModal('skill4c')">Asking Claude "explain HOW you did that"</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="trap-title">TRAP: The Candy Shop</div>
+      <div class="trap-body trap-link" onclick="openModal('trap4')">
+        Capability &ne; Performance. 15 tools = Claude picks the wrong one. More options, worse decisions. Less is more. (2 of 3)
+      </div>
+      <div class="trap-link-hint">Click to learn more</div>
+      <div class="divider"></div>
+
+      <div class="unlock-title">UNLOCK &gt; Level 5:</div>
+      <div class="unlock-body">
+        You keep repeating the same workflows. What if Claude just... knew?
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Level 5 -->
+  <div class="slide" data-index="5">
+    <div class="card level-5">
+      <div class="level-number">5</div>
+      <h2>LEVEL 5: THE SKILLED</h2>
+      <div class="tagline">"Claude becomes YOURS"</div>
+      <div class="divider"></div>
+
+      <div class="section-title">YOU'RE HERE WHEN ...</div>
+      <ul>
+        <li>You create custom skills that encode YOUR standards and workflows</li>
+        <li>Your Claude setup is unique to you</li>
+        <li>Nobody else's Claude works like yours</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="section-title">SKILLS TO MASTER</div>
+      <ul class="skills-list">
+        <li class="skill-link" onclick="openModal('skill5a')">Skill authoring (frontmatter + supporting files)</li>
+        <li class="skill-link" onclick="openModal('skill5b')">Invocation control (who triggers what, when)</li>
+        <li class="skill-link" onclick="openModal('skill5c')">Subagent skills + dynamic context injection</li>
+        <li class="skill-link" onclick="openModal('skill5d')">Bundled skills (/batch, /simplify, /loop)</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="trap-title">TRAP: Skill Overload</div>
+      <div class="trap-body trap-link" onclick="openModal('trap5')">
+        Too many skills = Claude can't pick the right one. 20&ndash;30 curated beats 1,000 generic. Less is more. (3 of 3)
+      </div>
+      <div class="trap-link-hint">Click to learn more</div>
+      <div class="divider"></div>
+
+      <div class="unlock-title">UNLOCK &gt; Level 6:</div>
+      <div class="unlock-body">
+        One agent isn't enough. You need parallel execution.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Level 6 -->
+  <div class="slide" data-index="6">
+    <div class="card level-6">
+      <div class="level-number">6</div>
+      <h2>LEVEL 6: THE ORCHESTRATOR</h2>
+      <div class="tagline">"You're not a curator &mdash; you're a manager"</div>
+      <div class="divider"></div>
+
+      <div class="section-title">YOU'RE HERE WHEN ...</div>
+      <ul>
+        <li>You run multiple Claude sessions at once</li>
+        <li>You use worktrees for isolated agents</li>
+        <li>You decide WHAT gets done, not HOW</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="section-title">SKILLS TO MASTER</div>
+      <ul class="skills-list">
+        <li class="skill-link" onclick="openModal('skill6a')">Task division + planning parallel work</li>
+        <li class="skill-link" onclick="openModal('skill6b')">Worktrees (--worktree / -w flag)</li>
+        <li class="skill-link" onclick="openModal('skill6c')">Multi-terminal session management</li>
+        <li class="skill-link" onclick="openModal('skill6d')">Agent Teams (the frontier)</li>
+      </ul>
+      <div class="divider"></div>
+
+      <div class="trap-title">TRAP: Skipping the Foundation</div>
+      <div class="trap-body trap-link" onclick="openModal('trap6')">
+        Without Levels 1&ndash;5, you get five agents producing five flavors of AI slop. Every level feeds this one.
+      </div>
+      <div class="trap-link-hint">Click to learn more</div>
+      <div class="divider"></div>
+
+      <div class="journey-title">THE FULL JOURNEY:</div>
+      <div class="unlock-body">
+        You went from commanding a tool to managing a team that manages itself.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Closing -->
+  <div class="slide" data-index="7">
+    <div class="closing-content">
+      <h2>THE FULL JOURNEY</h2>
+      <div class="journey-map">
+        <span class="jm-level jm-1">Prompter</span>
+        <span class="jm-arrow">&rarr;</span>
+        <span class="jm-level jm-2">Planner</span>
+        <span class="jm-arrow">&rarr;</span>
+        <span class="jm-level jm-3">Context Engineer</span>
+        <span class="jm-arrow">&rarr;</span>
+        <span class="jm-level jm-4">Toolsmith</span>
+        <span class="jm-arrow">&rarr;</span>
+        <span class="jm-level jm-5">Skilled</span>
+        <span class="jm-arrow">&rarr;</span>
+        <span class="jm-level jm-6">Orchestrator</span>
+      </div>
+      <div class="closing-quote">
+        From <strong>commanding a tool</strong><br>
+        to <strong>managing a team that manages itself.</strong>
+      </div>
+      <div class="less-is-more">LESS IS MORE &mdash; AT EVERY LEVEL.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&larr; Prev</button>
+  <div class="progress-dots" id="progressDots"></div>
+  <span class="slide-counter" id="slideCounter">1 / 8</span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next &rarr;</button>
+</div>
+
+<script>
+  // ── Theme logic ──
+  const darkThemes = ['navy', 'midnight', 'ember'];
+  const themeLabels = { navy: 'Navy', midnight: 'Midnight', ember: 'Ember', frost: 'Frost', parchment: 'Parchment', steel: 'Steel' };
+  let currentTheme = localStorage.getItem('cc-mastery-theme') || 'navy';
+
+  function setTheme(name) {
+    document.documentElement.setAttribute('data-theme', name);
+    currentTheme = name;
+    localStorage.setItem('cc-mastery-theme', name);
+
+    // Update button
+    const isDark = darkThemes.includes(name);
+    document.getElementById('themeIcon').innerHTML = isDark ? '&#9790;' : '&#9788;';
+    document.getElementById('themeName').textContent = themeLabels[name];
+
+    // Update active state
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === name);
+    });
+
+    closeThemeDropdown();
+  }
+
+  function toggleThemeDropdown() {
+    document.getElementById('themeDropdown').classList.toggle('open');
+  }
+
+  function closeThemeDropdown() {
+    document.getElementById('themeDropdown').classList.remove('open');
+  }
+
+  // Close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.theme-toggle')) closeThemeDropdown();
+  });
+
+  // Apply saved theme on load
+  setTheme(currentTheme);
+
+  // ── Modal content ──
+  const trapContent = {
+    trap1: {
+      title: 'TRAP: Regression to the Mean',
+      level: 'Level 1 \u2014 The Prompter',
+      body: `
+        <p>Without context about your project, stack, coding style, or preferences, Claude has nothing to work with except its training data. It produces the <strong>statistical average</strong> of all code it has ever seen &mdash; generic variable names, common patterns, boilerplate architecture. This is "regression to the mean" in action: the output gravitates toward the most common denominator.</p>
+
+        <h3>Why This Matters</h3>
+        <ul>
+          <li><strong>Generic output requires heavy editing</strong> &mdash; often more work than writing from scratch</li>
+          <li><strong>Claude can't distinguish YOUR preferred patterns</strong> from anyone else's</li>
+          <li><strong>Every prompt starts from zero</strong> &mdash; no accumulated understanding between sessions</li>
+          <li><strong>The output feels "close but wrong"</strong> &mdash; technically functional but not YOUR code</li>
+        </ul>
+
+        <h3>The 90% Problem</h3>
+        <p>Most Claude Code users never move past this level. They treat each interaction as isolated, never building on previous context. The result is a tool that produces competent but soulless code &mdash; technically correct, stylistically generic, architecturally naive.</p>
+
+        <div class="key-insight">
+          <p>The fix isn't better prompts &mdash; it's giving Claude the context to stop guessing. That journey starts at Level 2 with planning, and compounds through every level after.</p>
+        </div>
+      `
+    },
+    trap2: {
+      title: 'TRAP: Planning Blind',
+      level: 'Level 2 \u2014 The Planner',
+      body: `
+        <p>Plan Mode creates an <strong>illusion of thoroughness</strong>. You have a great conversation, Claude asks smart questions, you agree on an architecture &mdash; but Claude is still operating on conversational context alone. It doesn't know your file structure, your existing patterns, your team's conventions, or your tech stack's quirks.</p>
+
+        <h3>Why This Matters</h3>
+        <ul>
+          <li><strong>Claude may plan for a framework you don't use</strong> &mdash; or a version you've moved past</li>
+          <li><strong>Architecture decisions are made without seeing your actual codebase</strong> &mdash; leading to conflicts on execution</li>
+          <li><strong>"Smart" questions are still guesses</strong> about what matters to you</li>
+          <li><strong>The plan sounds great but produces friction</strong> when it meets your real code</li>
+        </ul>
+
+        <h3>The Conversation Gap</h3>
+        <p>Verbal descriptions of a codebase are <strong>lossy</strong>. You can describe your project for 20 minutes and still miss the one convention that matters most. Claude needs to <strong>SEE</strong> your project, not just hear about it.</p>
+
+        <div class="key-insight">
+          <p>CLAUDE.md files bridge this gap. They give Claude persistent, structured knowledge about your project that survives across sessions and doesn't depend on you remembering to mention it.</p>
+        </div>
+      `
+    },
+    trap3: {
+      title: 'TRAP: Bloated CLAUDE.md',
+      level: 'Level 3 \u2014 The Context Engineer',
+      body: `
+        <p>A 2026 ETH Zurich study found that LLM-generated context files (like CLAUDE.md or AGENTS.md) often <strong>hurt AI agent performance</strong>, reducing success rates in <span class="highlight-stat">5 out of 8 settings</span> while increasing inference costs by over <span class="highlight-stat">20%</span>. These files often provide redundant information, causing agents to pursue ineffective, "faked" reasoning paths.</p>
+
+        <h3>Key Findings from the Study</h3>
+        <ul>
+          <li><strong>Performance Reduction:</strong> Auto-generated context files reduced task success rates by approximately <span class="highlight-stat">3%</span></li>
+          <li><strong>Increased Costs:</strong> The unnecessary, verbose information in generated files caused a <span class="highlight-stat">&gt;20% increase</span> in token usage and inference costs</li>
+          <li><strong>Human vs. AI:</strong> While AI-generated context often harms performance, human-written, concise context files can provide a modest <span class="highlight-stat">~4% improvement</span></li>
+          <li><strong>"Less is More" Approach:</strong> The study recommends keeping context files <strong>under 300 lines</strong> (ideally under 60) and focusing only on non-obvious, high-level information that the agent cannot discover on its own</li>
+        </ul>
+
+        <h3>Why LLM-Generated Context Fails</h3>
+        <ul>
+          <li><strong>Distraction:</strong> Detailed overviews distract agents rather than helping them</li>
+          <li><strong>Redundancy:</strong> They simply repackage existing documentation the agent could already find</li>
+          <li><strong>Over-reliance:</strong> Agents treat every instruction in the file as mandatory, leading to unnecessary, inefficient actions</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Write your CLAUDE.md by hand. Keep it lean. Include only what Claude can't figure out on its own &mdash; your conventions, your preferences, your non-obvious decisions.</p>
+        </div>
+      `
+    },
+    trap4: {
+      title: 'TRAP: The Candy Shop',
+      level: 'Level 4 \u2014 The Toolsmith',
+      body: `
+        <p>The Model Context Protocol (MCP) ecosystem is expanding rapidly, with hundreds of integrations available. The temptation is to install everything &mdash; Supabase, Figma, Playwright, GitHub, Linear, Notion, Slack, and more. But <strong>more tools doesn't mean better performance</strong>.</p>
+
+        <h3>Why This Hurts</h3>
+        <ul>
+          <li><strong>Token overhead:</strong> Each MCP tool's schema consumes context window space, leaving less room for actual work</li>
+          <li><strong>Decision paralysis:</strong> When Claude sees 15+ tools, it spends more tokens deliberating which to use &mdash; and often picks wrong</li>
+          <li><strong>Hallucinated tool usage:</strong> With many similar tools available, Claude sometimes calls the wrong one or invents parameters that don't exist</li>
+          <li><strong>Slower responses:</strong> Tool discovery and selection adds latency to every single interaction</li>
+        </ul>
+
+        <h3>The Paradox</h3>
+        <p><strong>Capability &ne; Performance.</strong> A Claude instance with <span class="highlight-stat">5 carefully chosen MCPs</span> will outperform one with <span class="highlight-stat">25</span> every time. The key is surgical selection: install only what THIS project needs, and remove the rest.</p>
+
+        <div class="key-insight">
+          <p>Per-project .mcp.json files are your friend. Configure tools at the project level, not globally. Each project gets exactly the tools it needs &mdash; no more, no less.</p>
+        </div>
+      `
+    },
+    trap5: {
+      title: 'TRAP: Skill Overload',
+      level: 'Level 5 \u2014 The Skilled',
+      body: `
+        <p>Skills are powerful &mdash; they encode your workflows, standards, and taste into reusable instructions that Claude follows automatically. But the skill system has a fundamental constraint: Claude must read <strong>every skill description</strong> to decide which ones to invoke.</p>
+
+        <h3>Why This Matters</h3>
+        <ul>
+          <li><strong>Context budget:</strong> Every skill description consumes tokens from your context window, leaving less room for actual work</li>
+          <li><strong>Selection confusion:</strong> With 50+ skills, Claude frequently triggers the wrong one or misses the right one entirely</li>
+          <li><strong>Conflicting instructions:</strong> Overlapping skills create contradictions that Claude resolves unpredictably</li>
+          <li><strong>Diminishing returns:</strong> After ~20&ndash;30 well-crafted skills, each additional skill degrades the overall system more than it helps</li>
+        </ul>
+
+        <h3>The Curation Principle</h3>
+        <p><span class="highlight-stat">20&ndash;30 curated skills</span> beats <span class="highlight-stat">1,000 generic ones</span>. Each skill should be distinct in purpose, trigger cleanly on specific patterns, and not overlap with others.</p>
+
+        <div class="key-insight">
+          <p>Think of it like a restaurant menu &mdash; a focused 15-item menu with clear categories beats a 200-item diner menu where everything is mediocre. Curate ruthlessly.</p>
+        </div>
+      `
+    },
+    trap6: {
+      title: 'TRAP: Skipping the Foundation',
+      level: 'Level 6 \u2014 The Orchestrator',
+      body: `
+        <p>The allure of parallel agents is strong: spin up 5 worktrees, dispatch 5 Claude sessions, and watch your productivity multiply by 5&times;. But orchestration is a <strong>multiplier, not a replacement</strong>. It multiplies whatever skill level you've built up &mdash; including zero.</p>
+
+        <h3>What Happens Without Each Level</h3>
+        <ul>
+          <li><strong>Bad prompts &times; 5</strong> = 5&times; the slop <em>(Level 1 gap)</em></li>
+          <li><strong>No planning &times; 5</strong> = 5 conflicting architectures <em>(Level 2 gap)</em></li>
+          <li><strong>No context files &times; 5</strong> = 5 agents making different assumptions <em>(Level 3 gap)</em></li>
+          <li><strong>Wrong tools &times; 5</strong> = 5 agents breaking in different ways <em>(Level 4 gap)</em></li>
+          <li><strong>No skills &times; 5</strong> = 5 agents ignoring your standards <em>(Level 5 gap)</em></li>
+        </ul>
+
+        <h3>The Foundation Equation</h3>
+        <p><strong>Orchestration output = (Skill at Levels 1&ndash;5) &times; (Number of agents)</strong></p>
+        <p>If your foundation is a <span class="highlight-stat">2 out of 10</span>, five agents give you 10 &mdash; barely better than one skilled agent at <span class="highlight-stat">8</span>. Master the pyramid first, then multiply.</p>
+
+        <div class="key-insight">
+          <p>Every level feeds this one. The orchestrator's power comes not from running more agents, but from each agent carrying the full weight of Levels 1 through 5.</p>
+        </div>
+      `
+    }
+  };
+
+  // ── All modal content (traps + skills) ──
+  const allModalContent = Object.assign({}, trapContent, /* Level 1 skills */ {
+    skill2a: {
+      type: 'skill',
+      title: 'Plan Mode + Extended Thinking',
+      level: 'Level 2 \u2014 The Planner',
+      body: `
+        <p>Plan Mode is Claude Code's built-in feature for <strong>thinking before doing</strong>. Instead of jumping straight to writing code, Claude outlines its approach, identifies risks, and proposes an architecture &mdash; all before a single file is touched.</p>
+
+        <h3>How to Use It</h3>
+        <ul>
+          <li><strong>Shift+Tab</strong> toggles Plan Mode on/off in Claude Code</li>
+          <li><strong>Claude reads your codebase first</strong> &mdash; it explores files, understands structure, then proposes a plan</li>
+          <li><strong>You review and approve</strong> before Claude starts implementing</li>
+          <li><strong>Extended thinking</strong> gives Claude more "reasoning time" for complex problems &mdash; the plan gets deeper and more nuanced</li>
+        </ul>
+
+        <h3>When to Use Plan Mode</h3>
+        <ul>
+          <li><strong>New features</strong> that touch multiple files or modules</li>
+          <li><strong>Refactors</strong> where you need to understand the blast radius</li>
+          <li><strong>Ambiguous tasks</strong> where you want to align on approach before execution</li>
+          <li><strong>Skip it</strong> for small, well-defined changes like fixing a typo or adding a single function</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Plan Mode turns Claude from a code generator into a thought partner. The 2 minutes spent reviewing a plan saves 20 minutes of undoing wrong assumptions.</p>
+        </div>
+      `
+    },
+    skill2b: {
+      type: 'skill',
+      title: 'Collaborative Questioning',
+      level: 'Level 2 \u2014 The Planner',
+      body: `
+        <p>The most underused prompt pattern: <strong>asking Claude what you're missing</strong>. Instead of giving Claude all the answers, ask it to challenge your thinking. Claude has broad knowledge across architectures, patterns, and failure modes &mdash; leverage it.</p>
+
+        <h3>Power Prompts</h3>
+        <ul>
+          <li><strong>"What would an expert think here that I'm not?"</strong> &mdash; surfaces blind spots in your architecture</li>
+          <li><strong>"What are the top 3 risks with this approach?"</strong> &mdash; forces Claude to think adversarially</li>
+          <li><strong>"What's the simplest way to achieve this?"</strong> &mdash; prevents over-engineering</li>
+          <li><strong>"If this system had to handle 100x the load, what breaks first?"</strong> &mdash; stress-tests your design</li>
+        </ul>
+
+        <h3>Why This Works</h3>
+        <ul>
+          <li><strong>Claude knows patterns you haven't seen</strong> &mdash; it's been trained on millions of codebases and architectural discussions</li>
+          <li><strong>Questions produce better output than instructions</strong> &mdash; they engage Claude's reasoning rather than its completion instinct</li>
+          <li><strong>You stay in control</strong> &mdash; Claude suggests, you decide</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>The best engineers don't have all the answers &mdash; they ask the best questions. Treat Claude as the senior engineer you can always bounce ideas off of.</p>
+        </div>
+      `
+    },
+    skill2c: {
+      type: 'skill',
+      title: 'Letting Claude Push Back',
+      level: 'Level 2 \u2014 The Planner',
+      body: `
+        <p>Most users treat Claude as an order-taker: "do X" and expect compliance. But Claude is <strong>more valuable when you let it disagree</strong>. If your approach has flaws, you want to hear about them before you've built on top of them.</p>
+
+        <h3>How to Invite Pushback</h3>
+        <ul>
+          <li><strong>"Tell me if this is a bad idea:"</strong> &mdash; explicit permission to be critical</li>
+          <li><strong>"What would you do differently?"</strong> &mdash; opens the door for alternatives</li>
+          <li><strong>"Argue against this approach"</strong> &mdash; forces Claude to find weaknesses</li>
+          <li><strong>"Be honest &mdash; is this over-engineered?"</strong> &mdash; Claude defaults to being agreeable; this breaks that pattern</li>
+        </ul>
+
+        <h3>The Sycophancy Problem</h3>
+        <ul>
+          <li><strong>By default, Claude tends to agree</strong> &mdash; it's trained to be helpful, which sometimes means telling you what you want to hear</li>
+          <li><strong>Explicit prompting for honesty</strong> produces dramatically better feedback</li>
+          <li><strong>The best outcomes come from genuine dialogue</strong> &mdash; not from Claude rubber-stamping your first idea</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>A partner who always agrees with you isn't a partner &mdash; it's a mirror. Give Claude permission to be the colleague who says "have you considered..."</p>
+        </div>
+      `
+    },
+    skill6a: {
+      type: 'skill',
+      title: 'Task Division + Planning Parallel Work',
+      level: 'Level 6 \u2014 The Orchestrator',
+      body: `
+        <p>Parallel execution starts with <strong>decomposition</strong>. Before you spin up multiple agents, you need to split your work into tasks that can run independently without stepping on each other.</p>
+
+        <h3>Rules for Good Task Division</h3>
+        <ul>
+          <li><strong>No shared files:</strong> Two agents editing the same file creates merge conflicts. Split by module, not by layer</li>
+          <li><strong>Clear boundaries:</strong> Each task should have a defined scope &mdash; specific files, specific outcome, specific test to verify</li>
+          <li><strong>Independent verification:</strong> Each task should be testable on its own, without needing other tasks to be complete</li>
+          <li><strong>Ordered dependencies:</strong> If Task B needs Task A's output, don't parallelize them &mdash; sequence them</li>
+        </ul>
+
+        <h3>The Planning Step</h3>
+        <ul>
+          <li><strong>Use Plan Mode first:</strong> Get Claude to map out the full feature, then identify which pieces are independent</li>
+          <li><strong>Write task specs:</strong> Each parallel agent gets a mini-brief: goal, files to touch, constraints, acceptance criteria</li>
+          <li><strong>Assign shared context:</strong> All agents should read the same CLAUDE.md &mdash; consistency comes from shared context</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>The orchestrator's job isn't writing code &mdash; it's writing task specs. 15 minutes of good decomposition saves hours of merge conflict resolution.</p>
+        </div>
+      `
+    },
+    skill6b: {
+      type: 'skill',
+      title: 'Worktrees (--worktree / -w flag)',
+      level: 'Level 6 \u2014 The Orchestrator',
+      body: `
+        <p>Git worktrees let you check out <strong>multiple branches simultaneously</strong> in separate directories. Combined with Claude Code, each worktree becomes an isolated workspace for a parallel agent.</p>
+
+        <h3>How It Works</h3>
+        <ul>
+          <li><strong>claude --worktree</strong> or <strong>claude -w</strong> &mdash; Claude creates a new worktree in .claude/worktrees/ with a fresh branch based on HEAD</li>
+          <li><strong>Isolated filesystem:</strong> Each agent has its own copy of the repo &mdash; no file conflicts</li>
+          <li><strong>Shared git history:</strong> All worktrees share the same .git, so branches are visible everywhere</li>
+          <li><strong>Cleanup:</strong> When done, the worktree can be kept or removed</li>
+        </ul>
+
+        <h3>Workflow</h3>
+        <ul>
+          <li><strong>Plan in main:</strong> Decompose your task into parallel pieces</li>
+          <li><strong>Spawn worktrees:</strong> One per subtask, each with a clear branch name</li>
+          <li><strong>Run agents:</strong> Each Claude session works in its own worktree independently</li>
+          <li><strong>Merge back:</strong> Review each branch, resolve any conflicts, merge to main</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Worktrees are the infrastructure that makes parallel agents safe. Without them, two Claude sessions on the same repo will corrupt each other's work.</p>
+        </div>
+      `
+    },
+    skill6c: {
+      type: 'skill',
+      title: 'Multi-Terminal Session Management',
+      level: 'Level 6 \u2014 The Orchestrator',
+      body: `
+        <p>Running multiple Claude sessions means <strong>managing multiple terminals</strong>. The orchestrator needs a system for tracking which agent is doing what, monitoring progress, and intervening when something goes wrong.</p>
+
+        <h3>Tools of the Trade</h3>
+        <ul>
+          <li><strong>tmux / screen:</strong> Split your terminal into panes, one per agent. See all activity at a glance</li>
+          <li><strong>Named sessions:</strong> tmux new -s "auth-agent" and tmux new -s "api-agent" &mdash; know which is which</li>
+          <li><strong>Background mode:</strong> Run agents headlessly and check in periodically</li>
+          <li><strong>Terminal multiplexers in IDE:</strong> VS Code / Cursor terminals can run multiple Claude sessions side by side</li>
+        </ul>
+
+        <h3>Monitoring Patterns</h3>
+        <ul>
+          <li><strong>Check-in cadence:</strong> Glance at each agent every few minutes &mdash; catch drift early</li>
+          <li><strong>Permission batching:</strong> Use allowlists (yolo mode for safe operations) to reduce interruptions across agents</li>
+          <li><strong>Progress markers:</strong> Have each agent create a status file or commit at milestones so you can track progress without reading full output</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>The orchestrator's screen looks like a mission control dashboard, not a single terminal. Invest in your terminal setup &mdash; it's the cockpit you'll live in.</p>
+        </div>
+      `
+    },
+    skill6d: {
+      type: 'skill',
+      title: 'Agent Teams (The Frontier)',
+      level: 'Level 6 \u2014 The Orchestrator',
+      body: `
+        <p>Agent teams are the emerging frontier: <strong>multiple specialized agents collaborating on a shared goal</strong>, each with different skills, tools, and responsibilities. This is where Claude Code is heading.</p>
+
+        <h3>The Vision</h3>
+        <ul>
+          <li><strong>Specialized roles:</strong> A "frontend agent" with Figma MCP, a "backend agent" with database access, a "test agent" that only writes and runs tests</li>
+          <li><strong>Shared context:</strong> All agents read the same CLAUDE.md and project plan, ensuring consistency</li>
+          <li><strong>Defined interfaces:</strong> Agents communicate through code &mdash; API contracts, type definitions, shared schemas</li>
+          <li><strong>Human as manager:</strong> You define WHAT gets built. Agents figure out HOW</li>
+        </ul>
+
+        <h3>What's Possible Today</h3>
+        <ul>
+          <li><strong>Manual orchestration:</strong> You split tasks, spawn worktrees, and manage agents yourself</li>
+          <li><strong>Subagents:</strong> Claude can dispatch subagents for parallel research or implementation within a single session</li>
+          <li><strong>Skill-driven workflows:</strong> Skills can define multi-agent patterns that Claude follows</li>
+        </ul>
+
+        <h3>What's Coming</h3>
+        <ul>
+          <li><strong>Native multi-agent coordination:</strong> Agents that can hand off work to each other</li>
+          <li><strong>Shared memory:</strong> Agents that build on each other's discoveries without repeating work</li>
+          <li><strong>Automated decomposition:</strong> Claude splits and delegates tasks without human intervention</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>This is the frontier &mdash; messy, evolving, and incredibly powerful. The developers who learn orchestration now will have a massive head start when native multi-agent features land.</p>
+        </div>
+      `
+    },
+    skill5a: {
+      type: 'skill',
+      title: 'Skill Authoring (Frontmatter + Supporting Files)',
+      level: 'Level 5 \u2014 The Skilled',
+      body: `
+        <p>Skills are directories with a <strong>SKILL.md</strong> entrypoint that encode your workflows, standards, and preferences into instructions Claude follows automatically. Custom commands (.claude/commands/) have been <strong>merged into skills</strong> &mdash; your old command files still work, but skills are the recommended path forward.</p>
+
+        <h3>The Skill Directory Structure</h3>
+        <ul>
+          <li><strong>SKILL.md</strong> &mdash; YAML frontmatter + markdown instructions (required)</li>
+          <li><strong>Supporting files</strong> &mdash; templates, examples, scripts that keep SKILL.md focused</li>
+          <li><strong>Reference from SKILL.md:</strong> "For complete API details, see reference.md" &mdash; Claude loads them on demand, not upfront</li>
+        </ul>
+
+        <h3>YAML Frontmatter Fields</h3>
+        <ul>
+          <li><strong>name:</strong> Becomes the /slash-command. Lowercase, hyphens, max 64 chars</li>
+          <li><strong>description:</strong> The trigger &mdash; Claude reads this to decide when to invoke</li>
+          <li><strong>allowed-tools:</strong> Restrict which tools Claude can use (e.g., Read, Grep, Glob for read-only)</li>
+          <li><strong>argument-hint:</strong> Shown during autocomplete (e.g., [issue-number])</li>
+          <li><strong>model:</strong> Override which model runs the skill</li>
+        </ul>
+
+        <h3>Where Skills Live</h3>
+        <ul>
+          <li><strong>Personal:</strong> ~/.claude/skills/&lt;name&gt;/SKILL.md &mdash; all your projects</li>
+          <li><strong>Project:</strong> .claude/skills/&lt;name&gt;/SKILL.md &mdash; this project only, commit to git</li>
+          <li><strong>Enterprise:</strong> Managed settings &mdash; org-wide</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Keep SKILL.md under 500 lines. Move detailed reference material to separate files in the skill directory. Skills are where your taste becomes repeatable &mdash; encode your conventions once, Claude follows them forever.</p>
+        </div>
+      `
+    },
+    skill5b: {
+      type: 'skill',
+      title: 'Invocation Control (Who Triggers What, When)',
+      level: 'Level 5 \u2014 The Skilled',
+      body: `
+        <p>By default, both you and Claude can invoke any skill. Two frontmatter fields give you <strong>precise control over who triggers what</strong> &mdash; this is the key to building a skill system that works instead of one that misfires.</p>
+
+        <h3>The Invocation Matrix</h3>
+        <ul>
+          <li><strong>Default (no flags):</strong> You type /name OR Claude auto-invokes when relevant. Best for: conventions, patterns, style guides</li>
+          <li><strong>disable-model-invocation: true:</strong> Only YOU can trigger it. Claude never auto-fires. Best for: /deploy, /commit, /send-slack &mdash; anything with side effects</li>
+          <li><strong>user-invocable: false:</strong> Only CLAUDE can trigger it. Hidden from your / menu. Best for: background knowledge like legacy-system-context that Claude should know but isn't an "action"</li>
+        </ul>
+
+        <h3>Why This Matters</h3>
+        <ul>
+          <li><strong>Skills with side effects need manual control</strong> &mdash; you don't want Claude deciding to deploy because your code looks ready</li>
+          <li><strong>Background knowledge shouldn't clutter your / menu</strong> &mdash; 20 skills you never invoke manually are noise</li>
+          <li><strong>disable-model-invocation removes the skill from Claude's context entirely</strong> &mdash; freeing tokens for actual work</li>
+        </ul>
+
+        <h3>Arguments + $ARGUMENTS</h3>
+        <ul>
+          <li><strong>$ARGUMENTS</strong> &mdash; everything passed after /skill-name</li>
+          <li><strong>$ARGUMENTS[0], $0</strong> &mdash; first argument by position</li>
+          <li><strong>Example:</strong> /fix-issue 123 &rarr; "Fix GitHub issue $ARGUMENTS" becomes "Fix GitHub issue 123"</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>The most common mistake: leaving all skills as default. Audit each skill &mdash; does Claude need to auto-trigger this, or should only you decide when it runs? Get this right and your skill system stays sharp instead of noisy.</p>
+        </div>
+      `
+    },
+    skill5c: {
+      type: 'skill',
+      title: 'Subagent Skills + Dynamic Context Injection',
+      level: 'Level 5 \u2014 The Skilled',
+      body: `
+        <p>Two advanced patterns turn skills from static instructions into <strong>live, isolated pipelines</strong>: running skills in forked subagents, and injecting real-time data before Claude sees the prompt.</p>
+
+        <h3>Subagent Skills (context: fork)</h3>
+        <ul>
+          <li><strong>Add context: fork to frontmatter</strong> &mdash; the skill runs in an isolated subagent with no access to your conversation history</li>
+          <li><strong>The agent field picks the executor:</strong> Explore (read-only research), Plan (architecture), or any custom agent from .claude/agents/</li>
+          <li><strong>Results summarized back:</strong> The subagent works independently, then returns findings to your main session</li>
+          <li><strong>Use case:</strong> Deep research, codebase analysis, or any task that would pollute your main context</li>
+        </ul>
+
+        <h3>Dynamic Context Injection (!&#96;command&#96;)</h3>
+        <ul>
+          <li><strong>!&#96;gh pr diff&#96;</strong> &mdash; runs the command BEFORE Claude sees anything, output replaces the placeholder</li>
+          <li><strong>This is preprocessing, not Claude execution</strong> &mdash; Claude receives the rendered result, not the command</li>
+          <li><strong>Combine multiple injections:</strong> PR diff + PR comments + changed files, all fetched live</li>
+          <li><strong>Use case:</strong> PR summaries, deployment status, live data from APIs or CLIs</li>
+        </ul>
+
+        <h3>Power Combo: Fork + Injection</h3>
+        <ul>
+          <li>A /pr-summary skill that fetches PR data via !&#96;gh&#96; commands, then analyzes it in an Explore subagent</li>
+          <li>A /security-audit skill that injects dependency lists, then runs analysis in isolation</li>
+          <li>A /codebase-viz skill that runs a bundled Python script to generate interactive HTML output</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Subagent skills + dynamic injection let you build tools that are both context-aware (live data) and context-safe (isolated execution). This is where skills stop being prompts and start being infrastructure.</p>
+        </div>
+      `
+    },
+    skill5d: {
+      type: 'skill',
+      title: 'Bundled Skills (/batch, /simplify, /loop)',
+      level: 'Level 5 \u2014 The Skilled',
+      body: `
+        <p>Claude Code ships with <strong>built-in power skills</strong> that leverage subagents, worktrees, and parallel execution. Unlike built-in commands (which run fixed logic), bundled skills are prompt-driven &mdash; they orchestrate multi-step workflows using Claude's full toolkit.</p>
+
+        <h3>The Key Bundled Skills</h3>
+        <ul>
+          <li><strong>/batch &lt;instruction&gt;:</strong> The flagship. Decomposes large changes into 5&ndash;30 independent units, spawns one agent per unit in isolated git worktrees, each implements + tests + opens a PR. Example: "/batch migrate src/ from Solid to React"</li>
+          <li><strong>/simplify:</strong> Post-implementation cleanup. Spawns three parallel review agents (code reuse, quality, efficiency), aggregates findings, and applies fixes. Run it after finishing a feature</li>
+          <li><strong>/loop [interval] &lt;prompt&gt;:</strong> Runs a prompt on a recurring interval. "/loop 5m check if the deploy finished" &mdash; polls while your session stays open</li>
+          <li><strong>/debug [description]:</strong> Reads your session debug log to troubleshoot Claude Code itself. Describe the issue for focused analysis</li>
+        </ul>
+
+        <h3>When to Reach for Bundled Skills</h3>
+        <ul>
+          <li><strong>/batch</strong> &mdash; large-scale refactors, migrations, mass file updates that touch many independent modules</li>
+          <li><strong>/simplify</strong> &mdash; after implementing any non-trivial feature, before code review</li>
+          <li><strong>/loop</strong> &mdash; monitoring deploys, watching CI, babysitting PRs</li>
+          <li><strong>/claude-api</strong> &mdash; auto-activates when your code imports Anthropic SDKs, loads API reference for your language</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Bundled skills are production-grade examples of what's possible. Study how /batch decomposes work and spawns parallel agents &mdash; then build your own skills that follow the same patterns for your domain.</p>
+        </div>
+      `
+    },
+    skill4a: {
+      type: 'skill',
+      title: 'Surgical MCP Selection',
+      level: 'Level 4 \u2014 The Toolsmith',
+      body: `
+        <p>Model Context Protocol (MCP) servers extend Claude's reach beyond the terminal &mdash; into databases, design tools, browsers, APIs, and more. But the key word is <strong>surgical</strong>. Each MCP you add has a cost.</p>
+
+        <h3>The Selection Framework</h3>
+        <ul>
+          <li><strong>Per-project, not global:</strong> Use .mcp.json at the project level. Your React app needs different tools than your Python API</li>
+          <li><strong>One tool per job:</strong> Don't install 3 database MCPs &mdash; pick the one that matches your stack</li>
+          <li><strong>Test before committing:</strong> Try an MCP on a small task before adding it to your config permanently</li>
+          <li><strong>Audit quarterly:</strong> Remove MCPs you haven't used in the last month</li>
+        </ul>
+
+        <h3>High-Value MCPs by Category</h3>
+        <ul>
+          <li><strong>Database:</strong> Supabase, Postgres &mdash; let Claude query and understand your schema directly</li>
+          <li><strong>Browser:</strong> Playwright &mdash; Claude can test UIs, fill forms, take screenshots</li>
+          <li><strong>Design:</strong> Figma &mdash; Claude reads design specs and translates to code</li>
+          <li><strong>Search:</strong> Web search MCPs &mdash; let Claude look up current docs and APIs</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>The question isn't "what CAN Claude do with this tool?" It's "will Claude make BETTER decisions with this tool for THIS project?" If the answer isn't a clear yes, don't install it.</p>
+        </div>
+      `
+    },
+    skill4b: {
+      type: 'skill',
+      title: 'Understanding Building Blocks',
+      level: 'Level 4 \u2014 The Toolsmith',
+      body: `
+        <p>As you equip Claude with external tools, you need a mental model of <strong>what category each tool falls into</strong>. This lets you identify gaps and avoid redundancy in your setup.</p>
+
+        <h3>The Four Pillars</h3>
+        <ul>
+          <li><strong>Frontend:</strong> UI frameworks, component libraries, design-to-code tools (Figma MCP), browser testing (Playwright). Claude can build and verify what users see</li>
+          <li><strong>Backend:</strong> API frameworks, server management, deployment tools. Claude can scaffold endpoints, write middleware, configure services</li>
+          <li><strong>Auth:</strong> Authentication/authorization services, OAuth providers, session management. Critical for security &mdash; Claude should understand your auth model</li>
+          <li><strong>Data:</strong> Databases, ORMs, migration tools, caching layers. Database MCPs let Claude write and test queries against real schemas</li>
+        </ul>
+
+        <h3>Mapping Your Stack</h3>
+        <ul>
+          <li><strong>List your tools per pillar</strong> &mdash; where are the gaps? Where is there overlap?</li>
+          <li><strong>One strong tool per pillar</strong> beats three mediocre ones</li>
+          <li><strong>Know what Claude can already do natively</strong> &mdash; it reads files, runs commands, writes code. You don't need an MCP for that</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Think of MCPs as expanding Claude's senses, not its brain. Claude is already smart &mdash; tools let it see and touch things it couldn't before.</p>
+        </div>
+      `
+    },
+    skill4c: {
+      type: 'skill',
+      title: 'Asking Claude "Explain HOW You Did That"',
+      level: 'Level 4 \u2014 The Toolsmith',
+      body: `
+        <p>When Claude uses an MCP or builds something complex, don't just accept the result &mdash; <strong>ask it to teach you</strong>. This is how you level up your own understanding and catch mistakes Claude glosses over.</p>
+
+        <h3>Why This Matters at Level 4</h3>
+        <ul>
+          <li><strong>MCPs are opaque:</strong> Claude calls a Supabase function or runs a Playwright script &mdash; do you understand what actually happened?</li>
+          <li><strong>Debugging requires understanding:</strong> When an MCP-powered workflow breaks, you need to know enough to fix it</li>
+          <li><strong>Compounding knowledge:</strong> Every explanation Claude gives makes your next prompt better</li>
+        </ul>
+
+        <h3>Power Questions</h3>
+        <ul>
+          <li><strong>"Walk me through what that MCP call did step by step"</strong> &mdash; reveals the actual operations</li>
+          <li><strong>"Why did you choose that tool over the alternative?"</strong> &mdash; exposes Claude's decision-making</li>
+          <li><strong>"What could go wrong with this approach?"</strong> &mdash; surfaces risks you can't see</li>
+          <li><strong>"How would I do this manually without the MCP?"</strong> &mdash; builds your fallback knowledge</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>The goal isn't to become an expert in every tool &mdash; it's to understand enough that you're directing Claude, not blindly trusting it. Ask "how" at least once per session.</p>
+        </div>
+      `
+    },
+    skill3a: {
+      type: 'skill',
+      title: 'Lean CLAUDE.md (Not Bloated)',
+      level: 'Level 3 \u2014 The Context Engineer',
+      body: `
+        <p>CLAUDE.md is the single most impactful file in your project for AI-assisted development. It's loaded into every Claude Code session automatically. But its power comes from <strong>what you leave out</strong>, not what you put in.</p>
+
+        <h3>What Belongs in CLAUDE.md</h3>
+        <ul>
+          <li><strong>Non-obvious conventions:</strong> "We use barrel exports" or "all API responses follow { data, error } shape"</li>
+          <li><strong>Project-specific decisions:</strong> "We chose Zustand over Redux for X reason" &mdash; things Claude can't infer from code alone</li>
+          <li><strong>Build/test commands:</strong> How to run, test, and lint the project</li>
+          <li><strong>File structure overview:</strong> A brief map of where things live &mdash; 5-10 lines, not a full tree</li>
+        </ul>
+
+        <h3>What Does NOT Belong</h3>
+        <ul>
+          <li><strong>Generic best practices:</strong> Claude already knows "use meaningful variable names"</li>
+          <li><strong>Duplicated docs:</strong> Don't restate what's in your README, JSDoc, or inline comments</li>
+          <li><strong>Exhaustive file listings:</strong> Claude can explore your codebase itself</li>
+          <li><strong>LLM-generated summaries:</strong> These add volume without signal (see the ETH Zurich study)</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Target: under 60 lines. Maximum: 300 lines. Every line in CLAUDE.md consumes context window that could be used for actual work. Write it by hand, review it quarterly, delete aggressively.</p>
+        </div>
+      `
+    },
+    skill3b: {
+      type: 'skill',
+      title: 'Few-Shot Examples Over Long Instructions',
+      level: 'Level 3 \u2014 The Context Engineer',
+      body: `
+        <p>A single concrete example communicates more than a paragraph of instructions. Claude learns patterns by <strong>seeing what you want</strong>, not just reading descriptions of it.</p>
+
+        <h3>The Difference</h3>
+        <ul>
+          <li><strong>Instruction approach:</strong> "Use camelCase for variables, PascalCase for components, prefix private methods with underscore, always destructure props..." (50 words, easy to misinterpret)</li>
+          <li><strong>Example approach:</strong> Show one well-written component that demonstrates all your conventions. Claude extracts every pattern instantly (10x more information, zero ambiguity)</li>
+        </ul>
+
+        <h3>How to Use Few-Shot in CLAUDE.md</h3>
+        <ul>
+          <li><strong>Include a "golden" example:</strong> A small code snippet that demonstrates your preferred style</li>
+          <li><strong>Show input/output pairs:</strong> "When you see X, produce Y" is unambiguous</li>
+          <li><strong>Reference existing files:</strong> "Follow the pattern in src/components/UserCard.tsx" &mdash; Claude will read it</li>
+          <li><strong>One example per convention:</strong> Don't explain your test style &mdash; show one test</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>"Show, don't tell" isn't just writing advice &mdash; it's the most efficient way to program an AI. One example is worth a thousand words of instruction.</p>
+        </div>
+      `
+    },
+    skill3c: {
+      type: 'skill',
+      title: 'Context Window Management + /clear',
+      level: 'Level 3 \u2014 The Context Engineer',
+      body: `
+        <p>Claude Code has a finite context window &mdash; every message, file read, and tool call accumulates. As context fills up, Claude's ability to reason about your code <strong>degrades</strong>. Managing this is a core skill.</p>
+
+        <h3>Why Context Gets Polluted</h3>
+        <ul>
+          <li><strong>Task bleed:</strong> Debugging Task A leaves error traces, dead-end explorations, and stale reasoning that confuses Task B</li>
+          <li><strong>Large file reads:</strong> Reading a 2000-line file consumes significant context even if you only needed 10 lines</li>
+          <li><strong>Accumulated conversation:</strong> After 30+ messages, early context starts getting compressed or lost</li>
+        </ul>
+
+        <h3>The /clear Discipline</h3>
+        <ul>
+          <li><strong>Clear between tasks:</strong> Finished a bug fix? /clear before starting the next feature</li>
+          <li><strong>Clear after dead ends:</strong> If you explored 3 wrong approaches, /clear and start fresh with what you learned</li>
+          <li><strong>Clear before complex work:</strong> Give Claude maximum context room for multi-file refactors or architecture decisions</li>
+          <li><strong>Your CLAUDE.md survives /clear</strong> &mdash; it reloads automatically. Your persistent context is preserved</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Think of /clear like closing browser tabs. A fresh context with the right CLAUDE.md outperforms a polluted one every time.</p>
+        </div>
+      `
+    },
+    skill3d: {
+      type: 'skill',
+      title: 'Right Context at the Right Moment',
+      level: 'Level 3 \u2014 The Context Engineer',
+      body: `
+        <p>Not all context should be permanent. The best context engineers think about <strong>when</strong> Claude needs information, not just what information it needs.</p>
+
+        <h3>Context Layers</h3>
+        <ul>
+          <li><strong>Always-on (CLAUDE.md):</strong> Conventions, build commands, project structure &mdash; things needed in every session</li>
+          <li><strong>Session-level (conversation):</strong> "Today we're working on the checkout flow" &mdash; set the scene once per session</li>
+          <li><strong>Task-level (per prompt):</strong> Paste a specific error message, reference a specific file &mdash; just-in-time context</li>
+          <li><strong>On-demand (@ mentions):</strong> Use @file to pull specific files into context exactly when Claude needs them</li>
+        </ul>
+
+        <h3>The Timing Principle</h3>
+        <ul>
+          <li><strong>Too early:</strong> Context loaded 20 messages ago is compressed or forgotten</li>
+          <li><strong>Too late:</strong> Claude already made assumptions and built on them</li>
+          <li><strong>Just right:</strong> Provide context in the same message as the task that needs it</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Context engineering is not about giving Claude everything &mdash; it's about giving Claude the right thing at the right time. Think like a stage manager: set the scene just before the actor needs it.</p>
+        </div>
+      `
+    },
+    skill1a: {
+      type: 'skill',
+      title: 'Writing Clear, Specific Prompts',
+      level: 'Level 1 \u2014 The Prompter',
+      body: `
+        <p>The single biggest lever at Level 1. A vague prompt like "make it better" forces Claude to guess your intent. A specific prompt like "refactor this function to use early returns and reduce nesting to max 2 levels" gives Claude a clear target.</p>
+
+        <h3>The Anatomy of a Good Prompt</h3>
+        <ul>
+          <li><strong>State the goal, not just the action:</strong> "Add input validation that rejects emails without @ and shows an inline error" beats "add validation"</li>
+          <li><strong>Include constraints:</strong> Mention frameworks, file locations, naming conventions, or patterns you want followed</li>
+          <li><strong>Provide examples:</strong> "Format it like the UserCard component" gives Claude a concrete reference point</li>
+          <li><strong>Specify scope:</strong> "Only modify the handleSubmit function" prevents Claude from refactoring half your codebase</li>
+        </ul>
+
+        <h3>Common Mistakes</h3>
+        <ul>
+          <li><strong>"Build me X"</strong> with zero context &mdash; Claude fills in every blank with training data averages</li>
+          <li><strong>Multi-part requests in one message</strong> &mdash; Claude often nails the first part and fumbles the rest</li>
+          <li><strong>Assuming Claude remembers</strong> &mdash; each session starts fresh unless you use context files</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Think of prompts like commit messages: the extra 30 seconds of specificity saves 30 minutes of back-and-forth.</p>
+        </div>
+      `
+    },
+    skill1b: {
+      type: 'skill',
+      title: 'Reading and Evaluating Claude\'s Output',
+      level: 'Level 1 \u2014 The Prompter',
+      body: `
+        <p>Claude produces confident, well-formatted code &mdash; but confidence is not correctness. The ability to <strong>critically evaluate</strong> what Claude generates is what separates productive users from those who ship bugs.</p>
+
+        <h3>What to Check</h3>
+        <ul>
+          <li><strong>Does it actually do what you asked?</strong> Read the logic, not just the structure. Claude sometimes produces code that looks right but has subtle logic errors</li>
+          <li><strong>Are there hallucinated APIs?</strong> Claude may use function signatures or library methods that don't exist in your version</li>
+          <li><strong>Edge cases:</strong> Claude tends to handle the happy path well but miss null checks, empty arrays, and boundary conditions</li>
+          <li><strong>Security:</strong> Watch for unsanitized inputs, exposed secrets, or missing auth checks</li>
+        </ul>
+
+        <h3>The Review Habit</h3>
+        <ul>
+          <li><strong>Read diffs, not just final output</strong> &mdash; understand what changed and why</li>
+          <li><strong>Test immediately</strong> &mdash; run the code before accepting it</li>
+          <li><strong>Ask Claude to explain</strong> &mdash; "Walk me through what this function does" exposes misunderstandings</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>Treat Claude's output like a pull request from a talented but new teammate &mdash; trust but verify.</p>
+        </div>
+      `
+    },
+    skill1c: {
+      type: 'skill',
+      title: 'Basic Terminal Literacy',
+      level: 'Level 1 \u2014 The Prompter',
+      body: `
+        <p>Claude Code lives in the terminal. You don't need to be a shell wizard, but you need enough fluency to <strong>understand what Claude is doing</strong> and intervene when needed.</p>
+
+        <h3>Essential Skills</h3>
+        <ul>
+          <li><strong>Navigation:</strong> cd, ls, pwd &mdash; know where you are and what's around you</li>
+          <li><strong>Git basics:</strong> status, diff, log, checkout, branch &mdash; understand what Claude changed</li>
+          <li><strong>Process control:</strong> Ctrl+C to stop a runaway command, understanding exit codes</li>
+          <li><strong>File inspection:</strong> Being able to open and read files Claude created or modified</li>
+        </ul>
+
+        <h3>Why This Matters for Claude Code</h3>
+        <ul>
+          <li><strong>Claude runs real commands</strong> &mdash; it creates files, installs packages, runs builds. You need to follow along</li>
+          <li><strong>Error messages are your feedback loop</strong> &mdash; if you can't read a stack trace, you can't guide Claude to fix it</li>
+          <li><strong>Permission prompts:</strong> Claude asks before running commands. You need to understand what you're approving</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>You don't need to memorize every flag. You need to be comfortable enough that the terminal isn't a barrier between you and Claude's work.</p>
+        </div>
+      `
+    }
+  });
+
+  // ── Modal logic ──
+  let modalOpen = false;
+
+  function openModal(id) {
+    const data = allModalContent[id];
+    if (!data) return;
+
+    const overlay = document.getElementById('modalOverlay');
+    overlay.classList.remove('skill-modal');
+    if (data.type === 'skill') overlay.classList.add('skill-modal');
+
+    document.getElementById('modalHeader').textContent = data.title;
+    document.getElementById('modalLevelTag').textContent = data.level;
+    document.getElementById('modalBody').innerHTML = data.body;
+    overlay.classList.add('open');
+    document.getElementById('modalContent').scrollTop = 0;
+    modalOpen = true;
+  }
+
+  function closeModal(event, forceClose) {
+    if (forceClose || event.target === document.getElementById('modalOverlay')) {
+      document.getElementById('modalOverlay').classList.remove('open');
+      modalOpen = false;
+    }
+  }
+
+  // ── Slide navigation ──
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let current = 0;
+
+  // Build progress dots
+  const dotsContainer = document.getElementById('progressDots');
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsContainer.appendChild(dot);
+  }
+
+  function goTo(index) {
+    if (index < 0 || index >= totalSlides || index === current) return;
+
+    const direction = index > current ? 1 : -1;
+    const prev = slides[current];
+    const next = slides[index];
+
+    prev.classList.remove('active');
+    if (direction > 0) prev.classList.add('exit-left');
+
+    next.style.transition = 'none';
+    next.style.transform = direction > 0 ? 'translateX(60px)' : 'translateX(-60px)';
+    next.style.opacity = '0';
+
+    next.offsetHeight; // force reflow
+
+    next.style.transition = '';
+    next.classList.add('active');
+    next.style.transform = '';
+    next.style.opacity = '';
+
+    setTimeout(() => {
+      prev.classList.remove('exit-left');
+      prev.style.transform = '';
+      prev.style.opacity = '';
+    }, 500);
+
+    current = index;
+    updateUI();
+  }
+
+  function navigate(dir) {
+    goTo(current + dir);
+  }
+
+  function updateUI() {
+    document.getElementById('slideCounter').textContent = `${current + 1} / ${totalSlides}`;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === totalSlides - 1;
+
+    const dots = dotsContainer.children;
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].classList.toggle('active', i === current);
+    }
+  }
+
+  // Keyboard navigation (disabled when modal is open)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOpen) {
+      closeModal(e, true);
+      return;
+    }
+    if (modalOpen) return;
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End') { e.preventDefault(); goTo(totalSlides - 1); }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    if (modalOpen) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+  });
+
+  updateUI();
+</script>
+
+</body>
+</html>
