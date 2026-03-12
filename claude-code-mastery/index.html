@@ -1083,15 +1083,16 @@
 
       <div class="section-title">YOU'RE HERE WHEN ...</div>
       <ul>
-        <li>You install MCPs (Supabase, Figma, Playwright)</li>
-        <li>You connect Claude to the outside world</li>
-        <li>You experiment with frameworks</li>
+        <li>You leverage CLI tools Claude already knows (gh, playwright, contentful)</li>
+        <li>You install MCPs only when no CLI exists (Figma, Notion)</li>
+        <li>You think about token cost of every tool you add</li>
       </ul>
       <div class="divider"></div>
 
       <div class="section-title">SKILLS TO MASTER</div>
       <ul class="skills-list">
-        <li class="skill-link" onclick="openModal('skill4a')">Surgical MCP selection (right tool, right job, per project)</li>
+        <li class="skill-link" onclick="openModal('skill4d')">CLI-first thinking (35x fewer tokens than MCP)</li>
+        <li class="skill-link" onclick="openModal('skill4a')">Knowing when MCP is the right choice</li>
         <li class="skill-link" onclick="openModal('skill4b')">Understanding building blocks (frontend/backend/auth/data)</li>
         <li class="skill-link" onclick="openModal('skill4c')">Asking Claude "explain HOW you did that"</li>
       </ul>
@@ -1099,7 +1100,7 @@
 
       <div class="trap-title">TRAP: The Candy Shop</div>
       <div class="trap-body trap-link" onclick="openModal('trap4')">
-        Capability &ne; Performance. 15 tools = Claude picks the wrong one. More options, worse decisions. Less is more. (2 of 3)
+        MCP schemas alone can consume 145K tokens. CLI does the same job in 4K. More tools &ne; better decisions. Less is more. (2 of 3)
       </div>
       <div class="trap-link-hint">Click to learn more</div>
       <div class="divider"></div>
@@ -1340,21 +1341,21 @@
       title: 'TRAP: The Candy Shop',
       level: 'Level 4 \u2014 The Toolsmith',
       body: `
-        <p>The Model Context Protocol (MCP) ecosystem is expanding rapidly, with hundreds of integrations available. The temptation is to install everything &mdash; Supabase, Figma, Playwright, GitHub, Linear, Notion, Slack, and more. But <strong>more tools doesn't mean better performance</strong>.</p>
+        <p>The temptation is to install every MCP available &mdash; Figma, Contentful, Playwright, GitHub, Linear, Notion, Slack, and more. But <strong>more tools doesn't mean better performance</strong>. Worse, many of these have CLI equivalents that Claude already knows natively.</p>
 
-        <h3>Why This Hurts</h3>
+        <h3>The Token Tax</h3>
         <ul>
-          <li><strong>Token overhead:</strong> Each MCP tool's schema consumes context window space, leaving less room for actual work</li>
+          <li><strong>MCP schemas are expensive:</strong> A single MCP integration can consume <span class="highlight-stat">~145,000 tokens</span> just for tool definitions. The equivalent CLI approach uses <span class="highlight-stat">~4,150 tokens</span> &mdash; a <span class="highlight-stat">35x reduction</span></li>
           <li><strong>Decision paralysis:</strong> When Claude sees 15+ tools, it spends more tokens deliberating which to use &mdash; and often picks wrong</li>
           <li><strong>Hallucinated tool usage:</strong> With many similar tools available, Claude sometimes calls the wrong one or invents parameters that don't exist</li>
-          <li><strong>Slower responses:</strong> Tool discovery and selection adds latency to every single interaction</li>
+          <li><strong>Double coverage:</strong> Installing a GitHub MCP when <code>gh</code> CLI already exists wastes context on redundant capabilities</li>
         </ul>
 
-        <h3>The Paradox</h3>
-        <p><strong>Capability &ne; Performance.</strong> A Claude instance with <span class="highlight-stat">5 carefully chosen MCPs</span> will outperform one with <span class="highlight-stat">25</span> every time. The key is surgical selection: install only what THIS project needs, and remove the rest.</p>
+        <h3>The Decision Framework</h3>
+        <p><strong>Before adding any MCP, ask:</strong> does a CLI exist for this? If yes, use the CLI. Claude was trained on billions of terminal interactions &mdash; it's already fluent. Reserve MCPs for tools that genuinely have no command-line interface.</p>
 
         <div class="key-insight">
-          <p>Per-project .mcp.json files are your friend. Configure tools at the project level, not globally. Each project gets exactly the tools it needs &mdash; no more, no less.</p>
+          <p>Token Efficiency Score: CLI scores <span class="highlight-stat">202</span> vs MCP's <span class="highlight-stat">152</span> &mdash; a 33% efficiency advantage. Every MCP you replace with a CLI frees context window for actual reasoning.</p>
         </div>
       `
     },
@@ -1739,29 +1740,35 @@
     },
     skill4a: {
       type: 'skill',
-      title: 'Surgical MCP Selection',
+      title: 'Knowing When MCP Is the Right Choice',
       level: 'Level 4 \u2014 The Toolsmith',
       body: `
-        <p>Model Context Protocol (MCP) servers extend Claude's reach beyond the terminal &mdash; into databases, design tools, browsers, APIs, and more. But the key word is <strong>surgical</strong>. Each MCP you add has a cost.</p>
+        <p>MCPs are not dead &mdash; they're <strong>specialized</strong>. The key shift is from "install MCPs for everything" to "use MCPs only where CLI can't reach." Some tools genuinely have no command-line equivalent, and that's where MCP earns its token cost.</p>
 
-        <h3>The Selection Framework</h3>
+        <h3>MCP Is the Right Choice When</h3>
         <ul>
-          <li><strong>Per-project, not global:</strong> Use .mcp.json at the project level. Your React app needs different tools than your Python API</li>
-          <li><strong>One tool per job:</strong> Don't install 3 database MCPs &mdash; pick the one that matches your stack</li>
-          <li><strong>Test before committing:</strong> Try an MCP on a small task before adding it to your config permanently</li>
-          <li><strong>Audit quarterly:</strong> Remove MCPs you haven't used in the last month</li>
+          <li><strong>No CLI exists:</strong> Figma has no CLI &mdash; the Figma MCP is the only way Claude can read design specs and translate them to code</li>
+          <li><strong>Structured validation matters:</strong> Production multi-tenant environments where every API call needs schema validation and permission checks</li>
+          <li><strong>Dynamic tool discovery:</strong> When the set of available operations changes at runtime and Claude needs to discover what's possible</li>
+          <li><strong>Real-time streaming:</strong> Some services offer richer real-time data through MCP than their CLI provides</li>
         </ul>
 
-        <h3>High-Value MCPs by Category</h3>
+        <h3>MCP Is the Wrong Choice When</h3>
         <ul>
-          <li><strong>Database:</strong> Supabase, Postgres &mdash; let Claude query and understand your schema directly</li>
-          <li><strong>Browser:</strong> Playwright &mdash; Claude can test UIs, fill forms, take screenshots</li>
-          <li><strong>Design:</strong> Figma &mdash; Claude reads design specs and translates to code</li>
-          <li><strong>Search:</strong> Web search MCPs &mdash; let Claude look up current docs and APIs</li>
+          <li><strong>A CLI exists:</strong> <code>gh</code> replaces GitHub MCP. <code>npx playwright</code> replaces Playwright MCP. <code>contentful</code> replaces Contentful MCP</li>
+          <li><strong>You're adding "just in case":</strong> Every unused MCP still consumes tokens for its schema definitions</li>
+          <li><strong>Claude already knows the tool:</strong> If it's a well-known CLI, Claude has seen millions of examples in training data</li>
+        </ul>
+
+        <h3>If You Do Use MCP</h3>
+        <ul>
+          <li><strong>Per-project .mcp.json:</strong> Never install globally. Each project gets exactly what it needs</li>
+          <li><strong>Audit monthly:</strong> Remove any MCP you haven't used in 30 days</li>
+          <li><strong>One per job:</strong> Don't install 3 CMS MCPs &mdash; pick one</li>
         </ul>
 
         <div class="key-insight">
-          <p>The question isn't "what CAN Claude do with this tool?" It's "will Claude make BETTER decisions with this tool for THIS project?" If the answer isn't a clear yes, don't install it.</p>
+          <p>The question isn't "does an MCP exist for this?" It's "does a CLI exist for this?" Only reach for MCP when the answer is no.</p>
         </div>
       `
     },
@@ -1770,25 +1777,25 @@
       title: 'Understanding Building Blocks',
       level: 'Level 4 \u2014 The Toolsmith',
       body: `
-        <p>As you equip Claude with external tools, you need a mental model of <strong>what category each tool falls into</strong>. This lets you identify gaps and avoid redundancy in your setup.</p>
+        <p>As you equip Claude with external tools &mdash; whether CLI or MCP &mdash; you need a mental model of <strong>what category each tool falls into</strong>. This lets you identify gaps and avoid redundancy in your setup.</p>
 
-        <h3>The Four Pillars</h3>
+        <h3>The Four Pillars (CLI First)</h3>
         <ul>
-          <li><strong>Frontend:</strong> UI frameworks, component libraries, design-to-code tools (Figma MCP), browser testing (Playwright). Claude can build and verify what users see</li>
-          <li><strong>Backend:</strong> API frameworks, server management, deployment tools. Claude can scaffold endpoints, write middleware, configure services</li>
-          <li><strong>Auth:</strong> Authentication/authorization services, OAuth providers, session management. Critical for security &mdash; Claude should understand your auth model</li>
-          <li><strong>Data:</strong> Databases, ORMs, migration tools, caching layers. Database MCPs let Claude write and test queries against real schemas</li>
+          <li><strong>Frontend:</strong> <code>npx playwright</code> for browser testing, Figma MCP for design-to-code (no CLI alternative). Claude can build and verify what users see</li>
+          <li><strong>Backend:</strong> <code>curl</code> for API calls, framework CLIs (<code>next</code>, <code>vite</code>). Claude can scaffold endpoints, run dev servers, configure services</li>
+          <li><strong>Auth:</strong> Authentication CLIs, OAuth debugging tools. Critical for security &mdash; Claude should understand your auth model</li>
+          <li><strong>Data/Content:</strong> <code>contentful</code> CLI for content management, database CLIs for queries. Claude can manage content models, entries, and migrations directly</li>
         </ul>
 
         <h3>Mapping Your Stack</h3>
         <ul>
-          <li><strong>List your tools per pillar</strong> &mdash; where are the gaps? Where is there overlap?</li>
+          <li><strong>For each pillar, ask:</strong> does a CLI exist? Use it first. No CLI? Then consider MCP</li>
           <li><strong>One strong tool per pillar</strong> beats three mediocre ones</li>
-          <li><strong>Know what Claude can already do natively</strong> &mdash; it reads files, runs commands, writes code. You don't need an MCP for that</li>
+          <li><strong>Know what Claude can already do natively</strong> &mdash; it reads files, runs commands, writes code. You don't need an MCP or CLI for that</li>
         </ul>
 
         <div class="key-insight">
-          <p>Think of MCPs as expanding Claude's senses, not its brain. Claude is already smart &mdash; tools let it see and touch things it couldn't before.</p>
+          <p>Think of CLIs as Claude's native language and MCPs as a foreign phrasebook. Both extend Claude's reach &mdash; but one requires no translation overhead.</p>
         </div>
       `
     },
@@ -1797,25 +1804,61 @@
       title: 'Asking Claude "Explain HOW You Did That"',
       level: 'Level 4 \u2014 The Toolsmith',
       body: `
-        <p>When Claude uses an MCP or builds something complex, don't just accept the result &mdash; <strong>ask it to teach you</strong>. This is how you level up your own understanding and catch mistakes Claude glosses over.</p>
+        <p>When Claude uses a CLI tool, an MCP, or builds something complex, don't just accept the result &mdash; <strong>ask it to teach you</strong>. This is how you level up your own understanding and catch mistakes Claude glosses over.</p>
 
         <h3>Why This Matters at Level 4</h3>
         <ul>
-          <li><strong>MCPs are opaque:</strong> Claude calls a Supabase function or runs a Playwright script &mdash; do you understand what actually happened?</li>
-          <li><strong>Debugging requires understanding:</strong> When an MCP-powered workflow breaks, you need to know enough to fix it</li>
+          <li><strong>CLI commands can be opaque too:</strong> Claude chains <code>gh</code> and <code>jq</code> together &mdash; do you understand what each pipe did?</li>
+          <li><strong>Debugging requires understanding:</strong> When a tool-powered workflow breaks, you need to know enough to fix it</li>
           <li><strong>Compounding knowledge:</strong> Every explanation Claude gives makes your next prompt better</li>
         </ul>
 
         <h3>Power Questions</h3>
         <ul>
-          <li><strong>"Walk me through what that MCP call did step by step"</strong> &mdash; reveals the actual operations</li>
-          <li><strong>"Why did you choose that tool over the alternative?"</strong> &mdash; exposes Claude's decision-making</li>
+          <li><strong>"Walk me through what that command did step by step"</strong> &mdash; reveals the actual operations</li>
+          <li><strong>"Why did you choose CLI over MCP here?"</strong> &mdash; exposes Claude's decision-making about tool selection</li>
           <li><strong>"What could go wrong with this approach?"</strong> &mdash; surfaces risks you can't see</li>
-          <li><strong>"How would I do this manually without the MCP?"</strong> &mdash; builds your fallback knowledge</li>
+          <li><strong>"How would I do this manually?"</strong> &mdash; builds your fallback knowledge</li>
         </ul>
 
         <div class="key-insight">
           <p>The goal isn't to become an expert in every tool &mdash; it's to understand enough that you're directing Claude, not blindly trusting it. Ask "how" at least once per session.</p>
+        </div>
+      `
+    },
+    skill4d: {
+      type: 'skill',
+      title: 'CLI-First Thinking (35x Fewer Tokens Than MCP)',
+      level: 'Level 4 \u2014 The Toolsmith',
+      body: `
+        <p>LLMs have been trained on <strong>billions of terminal interactions</strong>. Tools like <code>gh</code>, <code>curl</code>, <code>jq</code>, and <code>npx playwright</code> are part of Claude's native vocabulary. MCP servers, by contrast, present unfamiliar custom schemas that require additional processing and consume vastly more tokens.</p>
+
+        <h3>The Numbers</h3>
+        <ul>
+          <li><strong>Token cost:</strong> A real-world benchmark showed CLI using <span class="highlight-stat">~4,150 tokens</span> vs MCP's <span class="highlight-stat">~145,000 tokens</span> for the same task &mdash; a <span class="highlight-stat">35x reduction</span></li>
+          <li><strong>Efficiency score:</strong> Token Efficiency Score of <span class="highlight-stat">202</span> (CLI) vs <span class="highlight-stat">152</span> (MCP) &mdash; a 33% advantage</li>
+          <li><strong>Task completion:</strong> CLI achieved <span class="highlight-stat">28% higher</span> task completion on automation benchmarks</li>
+        </ul>
+
+        <h3>High-Value CLIs</h3>
+        <ul>
+          <li><strong><code>gh</code></strong> &mdash; GitHub PRs, issues, actions, releases. Replaces GitHub MCP entirely</li>
+          <li><strong><code>npx playwright</code></strong> &mdash; browser testing, screenshots, form filling. No MCP needed</li>
+          <li><strong><code>contentful</code></strong> &mdash; content management, space/entry CRUD, migrations. Full CMS control from the terminal</li>
+          <li><strong><code>jq</code></strong> &mdash; JSON wrangling, API response parsing. Composes beautifully with other CLIs</li>
+          <li><strong><code>curl</code></strong> &mdash; direct HTTP calls to any API endpoint</li>
+        </ul>
+
+        <h3>Why CLI Wins</h3>
+        <ul>
+          <li><strong>Native fluency:</strong> Claude has seen millions of <code>gh pr create</code> examples. It's never seen your custom MCP schema before</li>
+          <li><strong>Unix composability:</strong> Piping output between tools (<code>gh pr list | jq '.[] | .title'</code>) is natural for Claude</li>
+          <li><strong>Zero setup:</strong> Most CLIs are already installed or a single <code>npm install -g</code> away. No MCP config needed</li>
+          <li><strong>Transparent:</strong> You can see exactly what command ran. MCP calls are a black box</li>
+        </ul>
+
+        <div class="key-insight">
+          <p>The decision framework is simple: does a CLI exist for this? Use it. No CLI? Then consider MCP. Default to what Claude already knows &mdash; don't teach it a new protocol when the old one works better.</p>
         </div>
       `
     },
