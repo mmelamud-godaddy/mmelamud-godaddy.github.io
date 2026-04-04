@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>18 Claude Code Token Hacks</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root, [data-theme="navy"] {
+    --bg-deep: #0a0e1a;
+    --bg-card: #0f1628;
+    --border-glow: #1a3a5c;
+    --border-bright: #2a5a8c;
+    --text-primary: #e0e6f0;
+    --text-secondary: #8899b0;
+    --text-muted: #5a6a80;
+    --accent-blue: #70a0d0;
+    --accent-cyan: #60c0d0;
+    --accent-red: #e05070;
+    --accent-green: #40d0a0;
+    --accent-purple: #9080e0;
+    --line-color: #1a3050;
+    --nav-bg: rgba(10, 14, 26, 0.95);
+    --card-shadow: rgba(20, 60, 100, 0.15);
+    --dot-glow: rgba(96, 192, 208, 0.4);
+    --tier1: #40d0a0;
+    --tier2: #5090e8;
+    --tier3: #a080e8;
+    --overlay-bg: rgba(5, 8, 18, 0.85);
+  }
+
+  [data-theme="midnight"] {
+    --bg-deep: #08080c;
+    --bg-card: #111118;
+    --border-glow: #252530;
+    --border-bright: #404058;
+    --text-primary: #e8e8f0;
+    --text-secondary: #9090a8;
+    --text-muted: #606078;
+    --accent-blue: #6088e0;
+    --accent-cyan: #50b8d0;
+    --accent-red: #f06080;
+    --accent-green: #50d8a0;
+    --accent-purple: #a08af0;
+    --line-color: #1e1e2a;
+    --nav-bg: rgba(8, 8, 12, 0.95);
+    --card-shadow: rgba(10, 10, 30, 0.25);
+    --dot-glow: rgba(80, 184, 208, 0.4);
+    --tier1: #50d8a0;
+    --tier2: #6898f8;
+    --tier3: #b098f8;
+    --overlay-bg: rgba(4, 4, 8, 0.88);
+  }
+
+  [data-theme="ember"] {
+    --bg-deep: #140e0a;
+    --bg-card: #1c1410;
+    --border-glow: #3a2820;
+    --border-bright: #5a4030;
+    --text-primary: #f0e4d8;
+    --text-secondary: #b0988a;
+    --text-muted: #7a6858;
+    --accent-blue: #70a0c0;
+    --accent-cyan: #60b0a0;
+    --accent-red: #e06040;
+    --accent-green: #60c070;
+    --accent-purple: #b080c0;
+    --line-color: #2a2018;
+    --nav-bg: rgba(20, 14, 10, 0.95);
+    --card-shadow: rgba(40, 20, 10, 0.2);
+    --dot-glow: rgba(96, 176, 160, 0.4);
+    --tier1: #60c070;
+    --tier2: #70b0d8;
+    --tier3: #c090d0;
+    --overlay-bg: rgba(12, 8, 5, 0.88);
+  }
+
+  [data-theme="frost"] {
+    --bg-deep: #f0f3f8;
+    --bg-card: #ffffff;
+    --border-glow: #c8d4e2;
+    --border-bright: #90a4be;
+    --text-primary: #1a2540;
+    --text-secondary: #4a5a72;
+    --text-muted: #8090a8;
+    --accent-blue: #3070b0;
+    --accent-cyan: #1a8a9a;
+    --accent-red: #c0304a;
+    --accent-green: #1a8a5a;
+    --accent-purple: #6050c0;
+    --line-color: #d0d8e4;
+    --nav-bg: rgba(240, 243, 248, 0.95);
+    --card-shadow: rgba(20, 40, 80, 0.08);
+    --dot-glow: rgba(26, 138, 154, 0.4);
+    --tier1: #168a5c;
+    --tier2: #2060b8;
+    --tier3: #6040a8;
+    --overlay-bg: rgba(240, 243, 248, 0.92);
+  }
+
+  [data-theme="parchment"] {
+    --bg-deep: #f5f0ea;
+    --bg-card: #fffdf8;
+    --border-glow: #d4c8b8;
+    --border-bright: #a09080;
+    --text-primary: #2a2420;
+    --text-secondary: #5a5048;
+    --text-muted: #908070;
+    --accent-blue: #406090;
+    --accent-cyan: #1a7a8a;
+    --accent-red: #b83040;
+    --accent-green: #2a7a50;
+    --accent-purple: #6048a0;
+    --line-color: #ddd4c8;
+    --nav-bg: rgba(245, 240, 234, 0.95);
+    --card-shadow: rgba(40, 30, 20, 0.06);
+    --dot-glow: rgba(26, 122, 138, 0.4);
+    --tier1: #2a7a50;
+    --tier2: #305880;
+    --tier3: #6048a0;
+    --overlay-bg: rgba(245, 240, 234, 0.92);
+  }
+
+  [data-theme="steel"] {
+    --bg-deep: #eaeef2;
+    --bg-card: #f8f9fb;
+    --border-glow: #bcc6d4;
+    --border-bright: #8a98ac;
+    --text-primary: #121820;
+    --text-secondary: #3a4858;
+    --text-muted: #7888a0;
+    --accent-blue: #2060a0;
+    --accent-cyan: #0a7a90;
+    --accent-red: #d03050;
+    --accent-green: #0a7a50;
+    --accent-purple: #5040b0;
+    --line-color: #c8d0dc;
+    --nav-bg: rgba(234, 238, 242, 0.95);
+    --card-shadow: rgba(10, 20, 40, 0.06);
+    --dot-glow: rgba(10, 122, 144, 0.4);
+    --tier1: #0a6a48;
+    --tier2: #1858a0;
+    --tier3: #4838a0;
+    --overlay-bg: rgba(234, 238, 242, 0.92);
+  }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--accent-blue) 3%, transparent) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--accent-purple) 3%, transparent) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* ── Header & search (IDE / terminal bar) ── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 150;
+    background: linear-gradient(180deg, var(--nav-bg) 0%, color-mix(in srgb, var(--nav-bg) 85%, transparent) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-glow);
+    padding: 1rem clamp(1rem, 4vw, 2rem);
+    padding-right: clamp(1rem, 4vw, 2rem);
+  }
+
+  .site-header__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .site-title {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: linear-gradient(135deg, #60c0d0, #7090e0, #a070d0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .site-title span {
+    display: block;
+    font-size: 0.65em;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    -webkit-text-fill-color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: min(100%, 280px);
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 8px;
+    padding: 0.35rem 0.75rem;
+    box-shadow: 0 0 20px var(--card-shadow);
+  }
+
+  .search-prompt {
+    color: var(--tier1);
+    font-weight: 600;
+    user-select: none;
+  }
+
+  .search-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.8rem;
+  }
+
+  .search-wrap input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .filter-status {
+    max-width: 1400px;
+    margin: 0.6rem auto 0;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    min-height: 1.2em;
+  }
+
+  .filter-status:empty {
+    display: none;
+  }
+
+  /* ── Tier grid ── */
+  .tiers-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.25rem clamp(1rem, 4vw, 2rem) 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .tiers-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .tier-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow:
+      0 0 30px var(--card-shadow),
+      inset 0 1px 0 rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tier-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--tier-accent), transparent);
+    opacity: 0.85;
+  }
+
+  .tier-section.tier-1 { --tier-accent: var(--tier1); }
+  .tier-section.tier-2 { --tier-accent: var(--tier2); }
+  .tier-section.tier-3 { --tier-accent: var(--tier3); }
+
+  .tier-section.tier-section--empty {
+    display: none;
+  }
+
+  .tier-head {
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--line-color);
+  }
+
+  .tier-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tier-accent);
+    margin-bottom: 0.35rem;
+  }
+
+  .tier-head h2 {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+  }
+
+  .tier-head p {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    line-height: 1.4;
+  }
+
+  .hack-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hack-card {
+    --hack-accent: var(--tier-accent);
+    background: color-mix(in srgb, var(--bg-deep) 40%, var(--bg-card));
+    border: 1px solid var(--border-glow);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    position: relative;
+    user-select: none;
+  }
+
+  .hack-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--hack-accent);
+    border-radius: 8px 0 0 8px;
+    opacity: 0.7;
+  }
+
+  .hack-card:hover {
+    border-color: var(--border-bright);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--hack-accent) 25%, transparent);
+  }
+
+  .hack-card:focus {
+    outline: 2px solid var(--hack-accent);
+    outline-offset: 2px;
+  }
+
+  .hack-card--hidden {
+    display: none !important;
+  }
+
+  .hack-card__num {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.85rem;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--hack-accent);
+    opacity: 0.4;
+    line-height: 1;
+  }
+
+  .hack-card__tagline {
+    font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    padding-right: 2.75rem;
+  }
+
+  .hack-card__hint {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    opacity: 0.85;
+  }
+
+  /* ── Theme toggle (preserved) ── */
+  .theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 200;
+  }
+
+  .theme-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 16px var(--card-shadow);
+  }
+
+  .theme-btn:hover {
+    border-color: var(--border-bright);
+    color: var(--text-primary);
+  }
+
+  .theme-btn .theme-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+
+  .theme-dropdown {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 8px;
+    padding: 0.4rem;
+    min-width: 160px;
+    box-shadow: 0 8px 24px var(--card-shadow);
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: all 0.2s;
+  }
+
+  .theme-dropdown.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .theme-dropdown-label {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.5rem 0.2rem;
+    text-transform: uppercase;
+  }
+
+  .theme-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+
+  .theme-option:hover {
+    background: var(--border-glow);
+    color: var(--text-primary);
+  }
+
+  .theme-option.active {
+    color: var(--accent-cyan);
+  }
+
+  .theme-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(128,128,128,0.3);
+    flex-shrink: 0;
+  }
+
+  .theme-divider {
+    height: 1px;
+    background: var(--border-glow);
+    margin: 0.3rem 0.2rem;
+  }
+
+  /* ── Modal (interactive summary) ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 1.5rem;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    max-width: 640px;
+    width: 100%;
+    max-height: min(85vh, 720px);
+    overflow-y: auto;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    box-shadow: 0 0 60px var(--card-shadow);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.3s ease;
+    position: relative;
+    user-select: text;
+  }
+
+  .modal-overlay.open .modal-content {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb {
+    background: var(--border-glow);
+    border-radius: 3px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: 1px solid var(--border-glow);
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: inherit;
+    line-height: 1;
+  }
+
+  .modal-close:hover {
+    color: var(--text-primary);
+    border-color: var(--border-bright);
+  }
+
+  .modal-header {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+    padding-right: 2.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .modal-tagline {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--modal-accent, var(--accent-cyan)), transparent);
+    opacity: 0.5;
+    margin-bottom: 1rem;
+  }
+
+  .modal-body p {
+    font-size: clamp(0.8rem, 1.35vw, 0.9rem);
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+
+  .modal-overlay[data-tier="1"] { --modal-accent: var(--tier1); }
+  .modal-overlay[data-tier="2"] { --modal-accent: var(--tier2); }
+  .modal-overlay[data-tier="3"] { --modal-accent: var(--tier3); }
+
+  .modal-overlay[data-tier="1"] .modal-header { color: color-mix(in srgb, var(--tier1) 85%, var(--text-primary)); }
+  .modal-overlay[data-tier="2"] .modal-header { color: color-mix(in srgb, var(--tier2) 85%, var(--text-primary)); }
+  .modal-overlay[data-tier="3"] .modal-header { color: color-mix(in srgb, var(--tier3) 85%, var(--text-primary)); }
+
+  @media (max-width: 600px) {
+    .site-header {
+      padding-top: 3.25rem;
+    }
+    .tier-section {
+      padding: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="theme-toggle">
+  <button type="button" class="theme-btn" onclick="toggleThemeDropdown()" aria-haspopup="listbox" aria-expanded="false" id="themeMenuBtn">
+    <span class="theme-icon" id="themeIcon">&#9790;</span>
+    <span id="themeName">Navy</span>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown" role="listbox">
+    <div class="theme-dropdown-label">Dark</div>
+    <button type="button" class="theme-option active" data-theme="navy" onclick="setTheme('navy')">
+      <span class="theme-swatch" style="background:#0a0e1a"></span> Navy
+    </button>
+    <button type="button" class="theme-option" data-theme="midnight" onclick="setTheme('midnight')">
+      <span class="theme-swatch" style="background:#08080c"></span> Midnight
+    </button>
+    <button type="button" class="theme-option" data-theme="ember" onclick="setTheme('ember')">
+      <span class="theme-swatch" style="background:#140e0a"></span> Ember
+    </button>
+    <div class="theme-divider"></div>
+    <div class="theme-dropdown-label">Light</div>
+    <button type="button" class="theme-option" data-theme="frost" onclick="setTheme('frost')">
+      <span class="theme-swatch" style="background:#f0f3f8"></span> Frost
+    </button>
+    <button type="button" class="theme-option" data-theme="parchment" onclick="setTheme('parchment')">
+      <span class="theme-swatch" style="background:#f5f0ea"></span> Parchment
+    </button>
+    <button type="button" class="theme-option" data-theme="steel" onclick="setTheme('steel')">
+      <span class="theme-swatch" style="background:#eaeef2"></span> Steel
+    </button>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="site-header__row">
+    <h1 class="site-title">Claude Code Token Hacks <span>18 practices &middot; 3 tiers</span></h1>
+    <label class="search-wrap" for="hackSearch">
+      <span class="search-prompt" aria-hidden="true">&gt;_</span>
+      <input type="search" id="hackSearch" placeholder="Filter by keyword…" autocomplete="off" enterkeyhint="search">
+    </label>
+  </div>
+  <div class="filter-status" id="filterStatus" aria-live="polite"></div>
+</header>
+
+<main class="tiers-layout" id="tiersLayout">
+  <section class="tier-section tier-1" data-tier="1" aria-label="Tier 1 Foundational">
+    <div class="tier-head">
+      <div class="tier-badge">Tier 1</div>
+      <h2>Foundational Habits</h2>
+      <p>Hacks 1&ndash;9 &middot; session hygiene and visibility</p>
+    </div>
+    <div class="hack-cards" id="tier1Cards"></div>
+  </section>
+  <section class="tier-section tier-2" data-tier="2" aria-label="Tier 2 Structural">
+    <div class="tier-head">
+      <div class="tier-badge">Tier 2</div>
+      <h2>Structural Optimization</h2>
+      <p>Hacks 10&ndash;14 &middot; context and project shape</p>
+    </div>
+    <div class="hack-cards" id="tier2Cards"></div>
+  </section>
+  <section class="tier-section tier-3" data-tier="3" aria-label="Tier 3 Advanced">
+    <div class="tier-head">
+      <div class="tier-badge">Tier 3</div>
+      <h2>Advanced Strategies</h2>
+      <p>Hacks 15&ndash;18 &middot; models, agents, scheduling</p>
+    </div>
+    <div class="hack-cards" id="tier3Cards"></div>
+  </section>
+</main>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)" data-tier="1">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button type="button" class="modal-close" onclick="closeModal(null, true)" aria-label="Close">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-tagline" id="modalTagline"></div>
+    <div class="modal-divider"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var HACKS = [
+    { id: 1, tier: 1, title: 'Start Fresh Conversations', tagline: 'Use `/clear` between unrelated tasks.', summary: 'Every message in a long chat is exponentially more expensive because Claude rereads the entire history. By using `/clear` when switching topics, you prevent carrying irrelevant context (Topic A) into a new conversation (Topic B), which is the single most effective way to extend your session life.' },
+    { id: 2, tier: 1, title: 'Disconnect MCP Servers', tagline: 'Remove invisible overhead.', summary: 'Each connected MCP server loads all tool definitions into your context on every single turn, potentially adding 18,000 "invisible" tokens per message. Use `mcp` to disconnect unused servers and prefer using CLIs (like Google Workspace CLI) which are faster and cheaper than MCP equivalents.' },
+    { id: 3, tier: 1, title: 'Batch Your Prompts', tagline: 'One message is cheaper than three.', summary: 'Three separate follow-up messages cost three times as much as one combined message because the entire history is reprocessed for each turn. If Claude makes a mistake, edit your original message and regenerate it instead of sending a follow-up correction to avoid stacking history permanently.' },
+    { id: 4, tier: 1, title: 'Use Plan Mode First', tagline: 'Map the approach before writing code.', summary: 'Use plan mode to let Claude ask clarifying questions before it starts building. This prevents "token waste" caused by Claude going down the wrong path and producing code that eventually has to be scrapped. Add a "95% confidence rule" to your `claude.md` to enforce this.' },
+    { id: 5, tier: 1, title: 'Run `/context` and `/cost`', tagline: 'Make the invisible visible.', summary: 'Use `/context` to see exactly what is eating your tokens—history, MCP overhead, or loaded files. Use `/cost` to see your actual token usage and estimated spend for the current session.' },
+    { id: 6, tier: 1, title: 'Set Up a Status Line', tagline: 'Track usage in real-time.', summary: 'Use `/status-line` in your terminal to create a visual progress bar. This allows you to monitor your percentage of the total context window (e.g., 52k out of 1,000k tokens) so you aren\'t surprised by limits.' },
+    { id: 7, tier: 1, title: 'Keep the Dashboard Open', tagline: 'Pace yourself with visibility.', summary: 'Keep your usage dashboard open in a side tab to monitor your session allocation. Checking every 20–40 minutes helps you pace your work and avoid hitting limits mid-task.' },
+    { id: 8, tier: 1, title: 'Be Smart with Pasting', tagline: 'Be precise, not bulky.', summary: 'Instead of dropping an entire document or large file, paste only the specific function, paragraph, or page Claude actually needs to solve the current problem.' },
+    { id: 9, tier: 1, title: 'Watch Claude Work', tagline: 'Stop bad loops immediately.', summary: 'Don\'t "fire and forget." By watching Claude work, you can stop it immediately if it gets stuck in a loop or starts reading irrelevant files, saving thousands of tokens that would otherwise produce zero value.' },
+    { id: 10, tier: 2, title: 'Maintain a Lean `claude.md`', tagline: 'Keep it under 200 lines.', summary: '`claude.md` is read at the start of *every* message. Treat it as a lean "index" that points Claude to where data lives rather than storing massive amounts of text inside it.' },
+    { id: 11, tier: 2, title: 'Surgical File References', tagline: 'Use `@filename` specifically.', summary: 'Avoid telling Claude to "find the bug in the repo." Instead, use `@filename` to point it to the exact file or function needing attention. This prevents Claude from wasting tokens exploring the entire repository freely.' },
+    { id: 12, tier: 2, title: 'Compact at 60% Capacity', tagline: 'Don\'t wait for the 95% auto-trigger.', summary: 'While autocompact triggers at 95%, the context is often degraded by then. Manually run `/compact` at 60% with instructions on what to preserve to maintain high-quality output.' },
+    { id: 13, tier: 2, title: 'Avoid Short Breaks', tagline: 'Watch the 5-minute cache timeout.', summary: 'Claude uses prompt caching to save tokens, but this cache has a five-minute timeout. If you step away for longer, the next message reprocesses everything from scratch at full cost.' },
+    { id: 14, tier: 2, title: 'Manage Command Output Bloat', tagline: 'Be intentional with shell commands.', summary: 'Full shell command outputs (like 200 git commits) enter your context as tokens. Be intentional about which commands you allow Claude to run, and deny permissions for commands that return excessive data.' },
+    { id: 15, tier: 3, title: 'Pick the Right Model', tagline: 'Sonnet for code, Haiku for tasks.', summary: 'Use Sonnet as your default, Haiku for simple formatting or research, and Opus only for deep architectural planning. Try to keep Opus usage under 20% to save tokens.' },
+    { id: 16, tier: 3, title: 'The Cost of Sub-agents', tagline: 'Agents use 7–10x more tokens.', summary: 'Sub-agents are expensive because they load their own full context. Delegate one-off tasks (like research) to a sub-agent specifically using the Haiku model to keep costs down.' },
+    { id: 17, tier: 3, title: 'Understand Peak Hours', tagline: 'Schedule big tasks for off-peak.', summary: 'Usage drains faster during peak hours (8 AM – 2 PM ET, weekdays). Save large refactors or multi-agent sessions for evenings or weekends when your allocation lasts longer.' },
+    { id: 18, tier: 3, title: 'Systems Constitution', tagline: 'Self-evolving `claude.md`.', summary: 'Store stable architectural decisions and "applied learning" bullets in `claude.md`. This creates a "source of truth" that makes every future prompt shorter because you don\'t have to re-explain rules.' }
+  ];
+
+  var tierContainers = {
+    1: document.getElementById('tier1Cards'),
+    2: document.getElementById('tier2Cards'),
+    3: document.getElementById('tier3Cards')
+  };
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function formatSummaryForModal(text) {
+    var esc = escapeHtml(text);
+    esc = esc.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    return '<p>' + esc + '</p>';
+  }
+
+  function buildCard(h) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'hack-card';
+    btn.setAttribute('data-hack-id', String(h.id));
+    var searchPieces = [
+      String(h.id),
+      h.title,
+      h.tagline,
+      h.summary,
+      h.tier === 1 ? 'foundational tier 1' : '',
+      h.tier === 2 ? 'structural tier 2' : '',
+      h.tier === 3 ? 'advanced tier 3' : ''
+    ];
+    btn.dataset.search = searchPieces.join(' ').toLowerCase();
+
+    btn.innerHTML =
+      '<span class="hack-card__num" aria-hidden="true">' + h.id + '</span>' +
+      '<div class="hack-card__tagline">' + escapeHtml(h.tagline) + '</div>' +
+      '<div class="hack-card__hint">Click for full summary</div>';
+
+    btn.setAttribute(
+      'aria-label',
+      'Hack ' + h.id + ': ' + h.title + '. ' + h.tagline + '. Open detailed summary.'
+    );
+    btn.onclick = function () { openModal(h); };
+    return btn;
+  }
+
+  HACKS.forEach(function (h) {
+    tierContainers[h.tier].appendChild(buildCard(h));
+  });
+
+  var modalOpen = false;
+  var overlay = document.getElementById('modalOverlay');
+
+  function openModal(h) {
+    overlay.setAttribute('data-tier', String(h.tier));
+    document.getElementById('modalHeader').textContent = 'Hack ' + h.id + ': ' + h.title;
+    document.getElementById('modalTagline').textContent = h.tagline;
+    document.getElementById('modalBody').innerHTML = formatSummaryForModal(h.summary);
+    overlay.classList.add('open');
+    document.querySelector('.modal-content').scrollTop = 0;
+    modalOpen = true;
+    document.getElementById('themeMenuBtn').setAttribute('aria-expanded', 'false');
+    document.getElementById('themeDropdown').classList.remove('open');
+  }
+
+  function closeModal(event, force) {
+    if (force || !event || event.target === overlay) {
+      overlay.classList.remove('open');
+      modalOpen = false;
+    }
+  }
+
+  window.closeModal = closeModal;
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modalOpen) {
+      closeModal(null, true);
+    }
+  });
+
+  var searchInput = document.getElementById('hackSearch');
+  var filterStatus = document.getElementById('filterStatus');
+
+  function applyFilter() {
+    var q = searchInput.value.trim().toLowerCase();
+    var cards = document.querySelectorAll('.hack-card');
+    var visibleCount = 0;
+    cards.forEach(function (card) {
+      var hay = card.dataset.search || '';
+      var show = !q || hay.indexOf(q) !== -1;
+      card.classList.toggle('hack-card--hidden', !show);
+      if (show) visibleCount++;
+    });
+    document.querySelectorAll('.tier-section').forEach(function (sec) {
+    var any = sec.querySelector('.hack-card:not(.hack-card--hidden)');
+      sec.classList.toggle('tier-section--empty', !any);
+    });
+    if (q) {
+      filterStatus.textContent = visibleCount === 0
+        ? 'No hacks match “' + searchInput.value.trim() + '”.'
+        : String(visibleCount) + ' hack' + (visibleCount === 1 ? '' : 's') + ' match your filter.';
+    } else {
+      filterStatus.textContent = '';
+    }
+  }
+
+  searchInput.addEventListener('input', applyFilter);
+  searchInput.addEventListener('search', applyFilter);
+
+  /* ── Theme (preserved) ── */
+  var darkThemes = ['navy', 'midnight', 'ember'];
+  var themeLabels = { navy: 'Navy', midnight: 'Midnight', ember: 'Ember', frost: 'Frost', parchment: 'Parchment', steel: 'Steel' };
+  var currentTheme = localStorage.getItem('cc-token-hacks-theme') || 'navy';
+
+  function setTheme(name) {
+    document.documentElement.setAttribute('data-theme', name);
+    currentTheme = name;
+    localStorage.setItem('cc-token-hacks-theme', name);
+    var isDark = darkThemes.indexOf(name) !== -1;
+    document.getElementById('themeIcon').innerHTML = isDark ? '&#9790;' : '&#9788;';
+    document.getElementById('themeName').textContent = themeLabels[name];
+    document.querySelectorAll('.theme-option').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.theme === name);
+    });
+    closeThemeDropdown();
+  }
+
+  window.setTheme = setTheme;
+
+  function toggleThemeDropdown() {
+    var d = document.getElementById('themeDropdown');
+    var open = d.classList.toggle('open');
+    document.getElementById('themeMenuBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  window.toggleThemeDropdown = toggleThemeDropdown;
+
+  function closeThemeDropdown() {
+    document.getElementById('themeDropdown').classList.remove('open');
+    document.getElementById('themeMenuBtn').setAttribute('aria-expanded', 'false');
+  }
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.theme-toggle')) closeThemeDropdown();
+  });
+
+  setTheme(currentTheme);
+})();
+</script>
+</body>
+</html>
