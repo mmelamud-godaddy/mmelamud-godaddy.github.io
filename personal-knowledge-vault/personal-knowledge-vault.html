@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="navy">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Knowledge Vault — Building an AI-Powered Second Brain with Claude Code + Obsidian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+/* ══════════════════════════════════════════════════════════════
+   Presentation Base CSS — Shared Design System
+   6 themes (3 dark, 3 light), theme toggle, modal, ambient bg
+   ══════════════════════════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── DARK THEMES ── */
+:root, [data-theme="navy"] {
+  --bg-deep: #0a0e1a;
+  --bg-card: #0f1628;
+  --bg-modal: #0d1525;
+  --border-glow: #1a3a5c;
+  --border-bright: #2a5a8c;
+  --text-primary: #e0e6f0;
+  --text-secondary: #8899b0;
+  --text-muted: #5a6a80;
+  --accent-blue: #70a0d0;
+  --accent-cyan: #60c0d0;
+  --accent-red: #e05070;
+  --accent-green: #40d0a0;
+  --accent-purple: #9080e0;
+  --accent-yellow: #d0b050;
+  --accent-orange: #d08040;
+  --line-color: #1a3050;
+  --nav-bg: rgba(10, 14, 26, 0.95);
+  --overlay-bg: rgba(5, 8, 18, 0.85);
+  --card-shadow: rgba(20, 60, 100, 0.15);
+  --dot-glow: rgba(96, 192, 208, 0.4);
+  --code-bg: rgba(20, 35, 60, 0.5);
+}
+
+[data-theme="midnight"] {
+  --bg-deep: #08080c; --bg-card: #111118; --bg-modal: #0e0e14;
+  --border-glow: #252530; --border-bright: #404058;
+  --text-primary: #e8e8f0; --text-secondary: #9090a8; --text-muted: #606078;
+  --accent-blue: #6088e0; --accent-cyan: #50b8d0; --accent-red: #f06080;
+  --accent-green: #50d8a0; --accent-purple: #a08af0; --accent-yellow: #d0b850; --accent-orange: #e08850;
+  --line-color: #1e1e2a; --nav-bg: rgba(8, 8, 12, 0.95); --overlay-bg: rgba(4, 4, 8, 0.88);
+  --card-shadow: rgba(10, 10, 30, 0.25); --dot-glow: rgba(80, 184, 208, 0.4);
+  --code-bg: rgba(18, 18, 30, 0.6);
+}
+
+[data-theme="ember"] {
+  --bg-deep: #140e0a; --bg-card: #1c1410; --bg-modal: #18120e;
+  --border-glow: #3a2820; --border-bright: #5a4030;
+  --text-primary: #f0e4d8; --text-secondary: #b0988a; --text-muted: #7a6858;
+  --accent-blue: #70a0c0; --accent-cyan: #60b0a0; --accent-red: #e06040;
+  --accent-green: #60c070; --accent-purple: #b080c0; --accent-yellow: #d0a848; --accent-orange: #d08040;
+  --line-color: #2a2018; --nav-bg: rgba(20, 14, 10, 0.95); --overlay-bg: rgba(12, 8, 5, 0.88);
+  --card-shadow: rgba(40, 20, 10, 0.2); --dot-glow: rgba(96, 176, 160, 0.4);
+  --code-bg: rgba(30, 20, 14, 0.6);
+}
+
+/* ── LIGHT THEMES ── */
+[data-theme="frost"] {
+  --bg-deep: #f0f3f8; --bg-card: #ffffff; --bg-modal: #f6f8fc;
+  --border-glow: #c8d4e2; --border-bright: #90a4be;
+  --text-primary: #1a2540; --text-secondary: #4a5a72; --text-muted: #8090a8;
+  --accent-blue: #3070b0; --accent-cyan: #1a8a9a; --accent-red: #c0304a;
+  --accent-green: #1a8a5a; --accent-purple: #6050c0; --accent-yellow: #a08820; --accent-orange: #b06828;
+  --line-color: #d0d8e4; --nav-bg: rgba(240, 243, 248, 0.95); --overlay-bg: rgba(240, 243, 248, 0.88);
+  --card-shadow: rgba(20, 40, 80, 0.08); --dot-glow: rgba(26, 138, 154, 0.4);
+  --code-bg: rgba(220, 230, 245, 0.6);
+}
+
+[data-theme="parchment"] {
+  --bg-deep: #f5f0ea; --bg-card: #fffdf8; --bg-modal: #faf6f0;
+  --border-glow: #d4c8b8; --border-bright: #a09080;
+  --text-primary: #2a2420; --text-secondary: #5a5048; --text-muted: #908070;
+  --accent-blue: #406090; --accent-cyan: #1a7a8a; --accent-red: #b83040;
+  --accent-green: #2a7a50; --accent-purple: #6048a0; --accent-yellow: #907820; --accent-orange: #a06020;
+  --line-color: #ddd4c8; --nav-bg: rgba(245, 240, 234, 0.95); --overlay-bg: rgba(245, 240, 234, 0.88);
+  --card-shadow: rgba(40, 30, 20, 0.06); --dot-glow: rgba(26, 122, 138, 0.4);
+  --code-bg: rgba(230, 220, 205, 0.5);
+}
+
+[data-theme="steel"] {
+  --bg-deep: #eaeef2; --bg-card: #f8f9fb; --bg-modal: #f0f2f6;
+  --border-glow: #bcc6d4; --border-bright: #8a98ac;
+  --text-primary: #121820; --text-secondary: #3a4858; --text-muted: #7888a0;
+  --accent-blue: #2060a0; --accent-cyan: #0a7a90; --accent-red: #d03050;
+  --accent-green: #0a7a50; --accent-purple: #5040b0; --accent-yellow: #908020; --accent-orange: #a06828;
+  --line-color: #c8d0dc; --nav-bg: rgba(234, 238, 242, 0.95); --overlay-bg: rgba(234, 238, 242, 0.88);
+  --card-shadow: rgba(10, 20, 40, 0.06); --dot-glow: rgba(10, 122, 144, 0.4);
+  --code-bg: rgba(215, 222, 232, 0.5);
+}
+
+/* ── Body base (layout-specific overrides in slides.css / grid.css) ── */
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ── Ambient background ── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--accent-blue) 3%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--accent-purple) 3%, transparent) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Theme toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 200;
+}
+
+.theme-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.theme-btn:hover {
+  border-color: var(--border-bright);
+  color: var(--text-primary);
+}
+
+.theme-btn .theme-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 8px;
+  padding: 0.4rem;
+  min-width: 160px;
+  box-shadow: 0 8px 24px var(--card-shadow);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: all 0.2s;
+}
+
+.theme-dropdown.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.theme-dropdown-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.5rem 0.2rem;
+  text-transform: uppercase;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+}
+
+.theme-option:hover {
+  background: var(--border-glow);
+  color: var(--text-primary);
+}
+
+.theme-option.active {
+  color: var(--accent-cyan);
+}
+
+.theme-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(128,128,128,0.3);
+  flex-shrink: 0;
+}
+
+.theme-divider {
+  height: 1px;
+  background: var(--border-glow);
+  margin: 0.3rem 0.2rem;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 2rem;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: var(--bg-modal);
+  border: 1px solid var(--border-bright);
+  border-radius: 12px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: 0 0 60px var(--card-shadow);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s ease;
+  position: relative;
+  user-select: text;
+}
+
+.modal-overlay.open .modal-content {
+  transform: translateY(0) scale(1);
+}
+
+.modal-content::-webkit-scrollbar { width: 6px; }
+.modal-content::-webkit-scrollbar-track { background: transparent; }
+.modal-content::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
+.modal-content::-webkit-scrollbar-thumb:hover { background: var(--border-bright); }
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: 1px solid var(--border-glow);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.modal-close:hover {
+  color: var(--text-primary);
+  border-color: var(--border-bright);
+  background: rgba(30, 50, 80, 0.3);
+}
+
+/* Modal accent — override with --modal-accent per presentation */
+.modal-header {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-weight: 700;
+  color: var(--modal-accent, var(--accent-cyan));
+  margin-bottom: 0.3rem;
+  padding-right: 2.5rem;
+}
+
+.modal-tag {
+  font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.modal-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--modal-accent, var(--accent-cyan)), transparent);
+  opacity: 0.3;
+  margin: 1rem 0;
+}
+
+/* ── Modal body typography ── */
+.modal-body p {
+  font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 0.8rem;
+}
+
+.modal-body h3 {
+  font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 1.2rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.03em;
+}
+
+.modal-body ul { list-style: none; padding-left: 0; margin-bottom: 0.8rem; }
+.modal-body ul li {
+  font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+  color: var(--text-secondary);
+  padding: 0.2rem 0 0.2rem 1.5em;
+  position: relative;
+  line-height: 1.65;
+}
+.modal-body ul li::before {
+  content: '';
+  position: absolute;
+  left: 0.2em;
+  top: 0.7em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--modal-accent, var(--accent-cyan));
+  opacity: 0.5;
+}
+
+.modal-body strong { color: var(--text-primary); font-weight: 600; }
+.modal-body .highlight { color: var(--accent-cyan); font-weight: 500; }
+
+.modal-body .key-insight {
+  background: color-mix(in srgb, var(--modal-accent, var(--accent-cyan)) 8%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--modal-accent, var(--accent-cyan)) 30%, transparent);
+  padding: 0.7rem 1rem;
+  margin: 0.8rem 0;
+  border-radius: 0 6px 6px 0;
+}
+.modal-body .key-insight p { margin-bottom: 0; font-style: italic; }
+
+.modal-body .modal-code {
+  background: var(--code-bg);
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  margin: 0.6rem 0;
+  font-size: clamp(0.65rem, 1.1vw, 0.75rem);
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  display: block;
+  color: var(--text-secondary);
+}
+
+.modal-body .modal-table { width: 100%; border-collapse: collapse; margin: 0.6rem 0; }
+.modal-body .modal-table th {
+  font-size: clamp(0.6rem, 1vw, 0.72rem);
+  color: var(--text-muted);
+  text-align: left;
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--border-glow);
+  font-weight: 600;
+}
+.modal-body .modal-table td {
+  font-size: clamp(0.65rem, 1.1vw, 0.78rem);
+  color: var(--text-secondary);
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+/* ── Shared responsive ── */
+@media (max-width: 600px) {
+  .modal-overlay { padding: 1rem; }
+  .modal-content { padding: 1.2rem; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Slide Deck Layout — Full-viewport slides with transitions
+   Requires: base.css loaded first
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Body overrides for slide mode ── */
+body {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+}
+
+/* ── Slide container & transitions ── */
+.slides-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  padding: 2rem;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.slide.exit-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+/* ── Title slide ── */
+.title-slide {
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.title-slide h1 {
+  font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #60c0d0, #7090e0, #a070d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.title-slide .subtitle {
+  font-size: clamp(0.85rem, 1.8vw, 1.2rem);
+  color: var(--text-secondary);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+}
+
+.title-slide .meta {
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.title-slide .start-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ── Card (content container per slide) ── */
+.card {
+  width: 100%;
+  max-width: 740px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: 0 0 30px var(--card-shadow), inset 0 1px 0 rgba(255,255,255,0.03);
+  position: relative;
+  overflow: hidden;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.card::-webkit-scrollbar { width: 5px; }
+.card::-webkit-scrollbar-track { background: transparent; }
+.card::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--level-color, var(--accent-blue)), transparent);
+  opacity: 0.6;
+}
+
+.card .slide-icon {
+  position: absolute;
+  top: 0.8rem;
+  right: 1.2rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  opacity: 0.07;
+  line-height: 1;
+}
+
+.card h2 {
+  font-size: clamp(1.2rem, 2.8vw, 1.7rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.3rem;
+}
+
+.card .tagline {
+  font-size: clamp(0.8rem, 1.6vw, 1rem);
+  color: var(--level-color, var(--accent-blue));
+  font-weight: 300;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.card .divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-color), transparent);
+  margin: 0.8rem 0;
+}
+
+.card .section-title {
+  font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.card ul { list-style: none; padding-left: 0; margin-bottom: 0.2rem; }
+.card ul li {
+  font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+  color: var(--text-secondary);
+  padding: 0.2rem 0;
+  padding-left: 1.2em;
+  position: relative;
+  line-height: 1.55;
+}
+.card ul li::before {
+  content: '\00b7';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+  font-size: 1.2em;
+}
+
+/* ── Content-specific utility classes ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin: 0.6rem 0;
+}
+
+.stat-box {
+  background: var(--code-bg);
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+}
+
+.stat-box .stat-value {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  color: var(--level-color, var(--accent-cyan));
+}
+
+.stat-box .stat-label {
+  font-size: clamp(0.6rem, 1vw, 0.7rem);
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.detail-link {
+  cursor: pointer;
+  border-bottom: 1px dashed rgba(96,192,208,0.4);
+  transition: all 0.2s;
+  display: inline;
+  color: var(--text-secondary);
+}
+.detail-link:hover {
+  color: var(--accent-cyan);
+  border-bottom-color: var(--accent-cyan);
+}
+
+.click-hint {
+  font-size: clamp(0.58rem, 0.9vw, 0.68rem);
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.detail-link:hover ~ .click-hint, .click-hint:hover { opacity: 1; }
+
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin: 0.6rem 0;
+  overflow-x: auto;
+  font-size: clamp(0.65rem, 1.1vw, 0.78rem);
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.code-label {
+  font-size: clamp(0.58rem, 0.9vw, 0.68rem);
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.2rem;
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin: 0.6rem 0;
+}
+
+.compare-box {
+  background: var(--code-bg);
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+}
+
+.compare-box .compare-label {
+  font-size: clamp(0.6rem, 1vw, 0.7rem);
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+
+.compare-box code {
+  font-size: clamp(0.62rem, 1vw, 0.75rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  white-space: pre;
+  display: block;
+}
+
+.compare-bad { border-left: 2px solid var(--accent-red); }
+.compare-good { border-left: 2px solid var(--accent-green); }
+
+.timeline-bar { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.6rem 0; }
+.tl-item { display: flex; align-items: center; gap: 0.6rem; }
+.tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.tl-label { font-size: clamp(0.65rem, 1.1vw, 0.78rem); color: var(--text-secondary); }
+.tl-date { font-size: clamp(0.58rem, 0.9vw, 0.68rem); color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+
+.mini-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+.mini-table th {
+  font-size: clamp(0.6rem, 1vw, 0.72rem);
+  color: var(--text-muted);
+  text-align: left;
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--border-glow);
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.mini-table td {
+  font-size: clamp(0.65rem, 1.1vw, 0.78rem);
+  color: var(--text-secondary);
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.mini-table td:first-child { color: var(--text-primary); font-weight: 500; }
+
+/* ── Status pills ── */
+.status-pills { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem; }
+.status-pill {
+  font-size: clamp(0.6rem, 1vw, 0.72rem);
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.pill-red { color: var(--accent-red); border-color: rgba(224,80,112,0.3); }
+.pill-yellow { color: var(--accent-yellow); border-color: rgba(208,176,80,0.3); }
+.pill-green { color: var(--accent-green); border-color: rgba(64,208,160,0.3); }
+.pill-blue { color: var(--accent-blue); border-color: rgba(112,160,208,0.3); }
+
+/* ── Closing slide ── */
+.closing-content { text-align: center; max-width: 680px; }
+.closing-content h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #60c0d0, #7090e0, #a070d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+}
+.closing-content .stat-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 1rem 0; }
+.closing-stat { text-align: center; min-width: 100px; }
+.closing-stat .cs-value { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--accent-cyan); }
+.closing-stat .cs-label { font-size: clamp(0.6rem, 1vw, 0.72rem); color: var(--text-muted); }
+.closing-content .closing-quote {
+  font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-style: italic;
+  margin-top: 1.5rem;
+}
+.closing-content .closing-quote strong { color: var(--text-primary); font-weight: 600; font-style: normal; }
+.closing-content .verdict {
+  margin-top: 1.5rem;
+  font-size: clamp(0.75rem, 1.4vw, 0.9rem);
+  color: var(--accent-green);
+  letter-spacing: 0.12em;
+  font-weight: 500;
+}
+
+/* ── Navigation bar ── */
+.nav-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(transparent, var(--nav-bg));
+  z-index: 100;
+}
+
+.nav-btn {
+  background: rgba(30, 50, 80, 0.5);
+  border: 1px solid var(--border-glow);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: rgba(40, 70, 110, 0.6);
+  color: var(--text-primary);
+  border-color: var(--border-bright);
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.progress-dots { display: flex; gap: 0.4rem; }
+
+.progress-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border-glow);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.progress-dot:hover {
+  background: var(--text-muted);
+  transform: scale(1.3);
+}
+
+.progress-dot.active {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--dot-glow);
+  transform: scale(1.3);
+}
+
+.slide-counter {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  min-width: 3rem;
+  text-align: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .card { padding: 1.2rem; }
+  .nav-bar { padding: 0.8rem 1rem; gap: 0.8rem; }
+  .comparison { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Content-specific CSS ── */
+.compare-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.compare-list li {
+  font-size: clamp(0.62rem, 1vw, 0.75rem);
+  line-height: 1.7;
+  padding: 0.15rem 0;
+}
+.compare-list li::before {
+  display: none;
+}
+.compare-good .compare-list li {
+  color: var(--accent-green);
+}
+.compare-bad .compare-list li {
+  color: var(--accent-red);
+}
+
+/* ── Folder tree ── */
+.folder-tree {
+  background: var(--code-bg);
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin: 0.6rem 0;
+  font-size: clamp(0.68rem, 1.15vw, 0.8rem);
+  line-height: 1.3;
+}
+.tree-root {
+  color: var(--accent-cyan);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  font-size: clamp(0.75rem, 1.3vw, 0.88rem);
+}
+.tree-icon {
+  display: inline-block;
+  width: 1.2em;
+  text-align: center;
+  font-style: normal;
+  margin-right: 0.2em;
+  flex-shrink: 0;
+}
+.tree-name {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.tree-desc {
+  color: var(--text-muted);
+  font-weight: 300;
+  margin-left: 0.4em;
+}
+.tree-desc::before {
+  content: '\2014\00a0';
+  opacity: 0.4;
+}
+.folder-tree ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+.folder-tree li {
+  position: relative;
+  padding: 0.15rem 0 0.15rem 1.6em;
+}
+/* Override card list styles inside tree */
+.folder-tree ul li { padding-left: 1.6em; font-size: inherit; color: inherit; }
+.folder-tree ul li::before {
+  content: '' !important;
+  left: 0.45em !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 1px !important;
+  height: auto !important;
+  background: var(--border-bright) !important;
+  border-radius: 0 !important;
+  opacity: 0.35 !important;
+  font-size: inherit !important;
+}
+.folder-tree ul li:last-child::before {
+  bottom: 50% !important;
+}
+.folder-tree ul li::after {
+  content: '';
+  position: absolute;
+  left: 0.45em;
+  top: 50%;
+  width: 0.8em;
+  height: 1px;
+  background: var(--border-bright);
+  opacity: 0.35;
+}
+
+/* ── TOC slide ── */
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  margin: 0.6rem 0;
+}
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-glow);
+  background: var(--code-bg);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+.toc-item:hover {
+  border-color: var(--border-bright);
+  background: color-mix(in srgb, var(--accent-cyan) 6%, transparent);
+  transform: translateY(-1px);
+}
+.toc-num {
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
+  font-weight: 700;
+  color: var(--accent-cyan);
+  min-width: 1.4em;
+  text-align: center;
+  opacity: 0.6;
+}
+.toc-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.toc-text {
+  flex: 1;
+  min-width: 0;
+}
+.toc-title {
+  font-size: clamp(0.68rem, 1.15vw, 0.8rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.toc-desc {
+  font-size: clamp(0.58rem, 0.95vw, 0.68rem);
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-top: 0.1rem;
+}
+.toc-section-label {
+  font-size: clamp(0.58rem, 0.9vw, 0.66rem);
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  grid-column: 1 / -1;
+  padding: 0.3rem 0 0;
+}
+@media (max-width: 600px) {
+  .toc-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Security disclaimer ── */
+.disclaimer {
+  max-width: 540px;
+  margin: 1.2rem auto 0;
+  padding: 0.7rem 1rem;
+  background: color-mix(in srgb, var(--accent-red) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-red) 20%, transparent);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 0 6px 6px 0;
+  text-align: left;
+}
+.disclaimer-title {
+  font-size: clamp(0.65rem, 1.1vw, 0.75rem);
+  font-weight: 700;
+  color: var(--accent-red);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.disclaimer p {
+  font-size: clamp(0.6rem, 1vw, 0.7rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+.disclaimer strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.closing-disclaimer {
+  max-width: 580px;
+  margin: 1.5rem auto 0;
+}
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <!-- Theme toggle -->
+  <div class="theme-toggle">
+    <button class="theme-btn" onclick="toggleThemeDropdown()" aria-label="Change theme">
+      <span id="themeIcon">&#9790;</span>
+      <span id="themeName">Navy</span>
+    </button>
+    <div class="theme-dropdown" id="themeDropdown">
+      <div class="theme-dropdown-label">Dark</div>
+      <button class="theme-option active" data-theme="navy" onclick="setTheme('navy')">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#0a1628,#1a2a4a)"></span> Navy
+      </button>
+      <button class="theme-option" data-theme="midnight" onclick="setTheme('midnight')">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#0d0d1a,#1a1a2e)"></span> Midnight
+      </button>
+      <button class="theme-option" data-theme="ember" onclick="setTheme('ember')">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#1a0a0a,#2a1215)"></span> Ember
+      </button>
+      <div class="theme-divider"></div>
+      <div class="theme-dropdown-label">Light</div>
+      <button class="theme-option" data-theme="frost" onclick="setTheme('frost')">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#e8eef5,#f0f4f8)"></span> Frost
+      </button>
+      <button class="theme-option" data-theme="parchment" onclick="setTheme('parchment')">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#f5f0e8,#ebe4d4)"></span> Parchment
+      </button>
+      <button class="theme-option" data-theme="steel" onclick="setTheme('steel')">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#d8dce2,#e2e6ec)"></span> Steel
+      </button>
+    </div>
+  </div>
+
+  <!-- Slides -->
+  <div class="slides-wrapper">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active title-slide">
+      <h1>Personal Knowledge Vault</h1>
+      <div class="subtitle">Building an AI-Powered Second Brain with Claude Code + Obsidian</div>
+      <div class="meta">A Guide to Persistent AI Memory, Structured Knowledge, and Daily Reflection</div>
+      <div class="disclaimer">
+        <div class="disclaimer-title">&#x26A0;&#xFE0F; Security Note</div>
+        <p>By giving Claude access to private data, untrusted web content (via clipping), and an exfiltration vector (internet access), you face the <strong>&ldquo;Lethal Trifecta&rdquo;</strong> of prompt injection risk. <strong>Never run Claude Code with full administrative bypass permissions</strong> on a vault containing sensitive credentials unless you are in a sandboxed environment.</p>
+      </div>
+      <div class="start-hint">Press &rarr; to begin</div>
+    </div>
+
+    <!-- Slide 2: Overview / Table of Contents -->
+    <div class="slide" style="--level-color: var(--accent-blue)">
+      <div class="card">
+        <div class="slide-icon">&#x1F5FA;&#xFE0F;</div>
+        <h2>What We'll Cover</h2>
+        <div class="tagline">Click any topic to jump directly to it</div>
+        <div class="divider"></div>
+        <div class="toc-grid">
+          <div class="toc-section-label">Why &amp; What</div>
+          <a class="toc-item" onclick="goTo(2)">
+            <span class="toc-icon">&#x1F9E0;</span>
+            <div class="toc-text">
+              <div class="toc-title">Why a Knowledge Vault?</div>
+              <div class="toc-desc">The problem with vanishing AI memory</div>
+            </div>
+          </a>
+          <a class="toc-item" onclick="goTo(3)">
+            <span class="toc-icon">&#x1F3AF;</span>
+            <div class="toc-text">
+              <div class="toc-title">Benefits &amp; Goals</div>
+              <div class="toc-desc">What a well-maintained PKV gives you</div>
+            </div>
+          </a>
+          <a class="toc-item" onclick="goTo(4)">
+            <span class="toc-icon">&#x2696;&#xFE0F;</span>
+            <div class="toc-text">
+              <div class="toc-title">Pros &amp; Cons</div>
+              <div class="toc-desc">Honest trade-offs of the approach</div>
+            </div>
+          </a>
+
+          <div class="toc-section-label">Setup</div>
+          <a class="toc-item" onclick="goTo(5)">
+            <span class="toc-icon">&#x1F48E;</span>
+            <div class="toc-text">
+              <div class="toc-title">Setting Up Obsidian</div>
+              <div class="toc-desc">Install, configure, plugins</div>
+            </div>
+          </a>
+          <a class="toc-item" onclick="goTo(6)">
+            <span class="toc-icon">&#x1F50C;</span>
+            <div class="toc-text">
+              <div class="toc-title">Essential Plugins</div>
+              <div class="toc-desc">Must-have and nice-to-have community plugins</div>
+            </div>
+          </a>
+          <a class="toc-item" onclick="goTo(7)">
+            <span class="toc-icon">&#x2328;&#xFE0F;</span>
+            <div class="toc-text">
+              <div class="toc-title">Obsidian CLI</div>
+              <div class="toc-desc">Terminal control for Claude integration</div>
+            </div>
+          </a>
+
+          <div class="toc-section-label">Architecture</div>
+          <a class="toc-item" onclick="goTo(8)">
+            <span class="toc-icon">&#x1F4C2;</span>
+            <div class="toc-text">
+              <div class="toc-title">Folder Structure</div>
+              <div class="toc-desc">Numbered folders and ingestion pipeline</div>
+            </div>
+          </a>
+          <a class="toc-item" onclick="goTo(9)">
+            <span class="toc-icon">&#x1F3D7;&#xFE0F;</span>
+            <div class="toc-text">
+              <div class="toc-title">Memory Architecture</div>
+              <div class="toc-desc">Two-tier memory and compaction cycle</div>
+            </div>
+          </a>
+
+          <div class="toc-section-label">Get Started</div>
+          <a class="toc-item" onclick="goTo(10)">
+            <span class="toc-icon">&#x1F680;</span>
+            <div class="toc-text">
+              <div class="toc-title">Setup Prompts</div>
+              <div class="toc-desc">Bootstrap your vault with copy-paste prompts</div>
+            </div>
+          </a>
+          <a class="toc-item" onclick="goTo(11)">
+            <span class="toc-icon">&#x2699;&#xFE0F;</span>
+            <div class="toc-text">
+              <div class="toc-title">Skills, Hooks &amp; Routing</div>
+              <div class="toc-desc">Automate vault maintenance with Claude</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Why a Personal Knowledge Vault? -->
+    <div class="slide" style="--level-color: var(--accent-cyan)">
+      <div class="card">
+        <div class="slide-icon">&#x1F9E0;</div>
+        <h2>Why a Personal Knowledge Vault?</h2>
+        <div class="tagline">The problem: AI conversations vanish. Your knowledge shouldn't.</div>
+        <div class="divider"></div>
+        <div class="section-title">THE PROBLEM</div>
+        <ul>
+          <li>Every Claude session starts from zero &mdash; no memory of past decisions</li>
+          <li>Scattered notes across apps, repos, and chat histories</li>
+          <li>Knowledge gained in one project stays siloed from others</li>
+          <li>No institutional memory &mdash; same mistakes, same rediscoveries</li>
+        </ul>
+        <div class="divider"></div>
+        <div class="section-title">THE SOLUTION</div>
+        <ul>
+          <li>A structured Obsidian vault that Claude reads and writes to every session</li>
+          <li>Persistent memory that survives across projects and conversations</li>
+          <li>An AI Chief of Staff that maintains your knowledge base</li>
+          <li>Automated daily reflection that promotes insights and prunes noise</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Slide 4: Benefits & Goals -->
+    <div class="slide" style="--level-color: var(--accent-green)">
+      <div class="card">
+        <div class="slide-icon">&#x1F3AF;</div>
+        <h2>Benefits &amp; Goals</h2>
+        <div class="tagline">What you get from a well-maintained PKV</div>
+        <div class="divider"></div>
+        <div class="section-title">CORE BENEFITS</div>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-value">&infin;</div>
+            <div class="stat-label">Persistent Memory</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">1</div>
+            <div class="stat-label">Source of Truth</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Context Lost</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">AI Librarian</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-title">GOALS</div>
+        <ul>
+          <li>Cross-project memory &mdash; decisions in Project A inform Project B</li>
+          <li>Automated ingestion &mdash; drop files into 00_raw/, Claude organizes them</li>
+          <li>Evolving user profile &mdash; Claude adapts to your style over time</li>
+          <li>Zettelkasten-style atomic notes &mdash; reusable insights, not session dumps</li>
+          <li>Daily compaction &mdash; verbose logs distilled into permanent wisdom</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Slide 5: Pros & Cons -->
+    <div class="slide" style="--level-color: var(--accent-yellow)">
+      <div class="card">
+        <div class="slide-icon">&#x2696;&#xFE0F;</div>
+        <h2>Pros &amp; Cons</h2>
+        <div class="tagline">An honest assessment of the approach</div>
+        <div class="divider"></div>
+        <div class="comparison">
+          <div class="compare-box compare-good">
+            <div class="compare-label">PROS</div>
+            <ul class="compare-list">
+              <li>&#x2713; Claude remembers across all sessions</li>
+              <li>&#x2713; Obsidian gives you full ownership</li>
+              <li>&#x2713; No vendor lock-in &mdash; plain markdown</li>
+              <li>&#x2713; Works offline, syncs via git/iCloud</li>
+              <li>&#x2713; Scales from personal to team use</li>
+              <li>&#x2713; Zettelkasten promotes deep thinking</li>
+              <li>&#x2713; /reflect automates maintenance</li>
+            </ul>
+          </div>
+          <div class="compare-box compare-bad">
+            <div class="compare-label">CONS</div>
+            <ul class="compare-list">
+              <li>&#x2717; Initial setup takes ~30 minutes</li>
+              <li>&#x2717; CLAUDE.md config can be fragile</li>
+              <li>&#x2717; Memory routing requires discipline</li>
+              <li>&#x2717; Vault grows &mdash; needs periodic pruning</li>
+              <li>&#x2717; Claude's context window is still limited</li>
+              <li>&#x2717; Obsidian plugins can conflict</li>
+              <li>&#x2717; <span class="detail-link" onclick="openModal('zettelkasten')" style="color:var(--accent-red)">Learning curve for Zettelkasten</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Setting Up Obsidian -->
+    <div class="slide" style="--level-color: var(--accent-purple)">
+      <div class="card">
+        <div class="slide-icon">&#x1F48E;</div>
+        <h2>Setting Up Obsidian</h2>
+        <div class="tagline">The foundation: your markdown-powered second brain</div>
+        <div class="divider"></div>
+        <div class="section-title">INSTALL &amp; CONFIGURE</div>
+        <ul>
+          <li>Download Obsidian from <a href="https://obsidian.md/" target="_blank" rel="noopener" style="color:var(--accent-purple);border-bottom:1px dashed var(--accent-purple);text-decoration:none">obsidian.md</a> &mdash; free for personal use</li>
+          <li>Create a new vault at ~/Documents/Vault/</li>
+          <li>Enable Settings &rarr; Files &rarr; Detect all file extensions</li>
+          <li>Enable Settings &rarr; Files &rarr; Default location for new notes &rarr; root</li>
+          <li>Turn on Settings &rarr; Core Plugins &rarr; Templates, Tags, Backlinks, Outgoing Links</li>
+        </ul>
+        <div class="divider"></div>
+        <div class="section-title">OPTIONAL SETTINGS</div>
+        <ul>
+          <li>Default view: Source mode (for YAML frontmatter editing)</li>
+          <li>Appearance: Dark theme + custom CSS (matches Claude's Navy theme)</li>
+          <li>Hotkeys: Cmd+N (new note), Cmd+O (quick open), Cmd+Shift+F (vault search)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Slide 7: Essential Obsidian Plugins -->
+    <div class="slide" style="--level-color: var(--accent-orange)">
+      <div class="card">
+        <div class="slide-icon">&#x1F50C;</div>
+        <h2>Essential Obsidian Plugins</h2>
+        <div class="tagline">Community plugins that supercharge the Vault workflow</div>
+        <div class="divider"></div>
+        <div class="section-title">MUST-HAVE PLUGINS</div>
+        <ul>
+          <li><strong>Terminal</strong> &mdash; Run Claude Code directly inside Obsidian (Cmd+`)</li>
+          <li><strong>Obsidian Web Clipper</strong> &mdash; Capture web pages directly into 00_raw/</li>
+          <li><strong>Excalidraw</strong> &mdash; Visual diagrams and sketches embedded in notes</li>
+          <li><strong>Graph View</strong> &mdash; Explore connections between notes visually</li>
+        </ul>
+        <div class="divider"></div>
+        <div class="section-title">NICE-TO-HAVE</div>
+        <ul>
+          <li><strong>Dataview</strong> &mdash; Query your vault like a database using YAML frontmatter</li>
+          <li><strong>Templater</strong> &mdash; Auto-generate daily notes with correct frontmatter</li>
+          <li><strong>Obsidian Git</strong> &mdash; Auto-commit and sync vault to GitHub</li>
+          <li><strong>Calendar</strong> &mdash; Visual calendar for daily notes navigation</li>
+          <li><strong>Linter</strong> &mdash; Auto-fix YAML frontmatter and formatting</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Slide 8: Obsidian CLI -->
+    <div class="slide" style="--level-color: var(--accent-blue)">
+      <div class="card">
+        <div class="slide-icon">&#x2328;&#xFE0F;</div>
+        <h2>Obsidian CLI</h2>
+        <div class="tagline">Control Obsidian from the terminal &mdash; perfect for Claude Code integration</div>
+        <div class="divider"></div>
+        <div class="section-title">INSTALLATION</div>
+        <div class="code-block"><span style="color:var(--text-muted)"># Install via npm (Node.js required)</span>
+npm install -g obsidian-cli
+
+<span style="color:var(--text-muted)"># Verify installation</span>
+obsidian --version</div>
+        <div class="divider"></div>
+        <div class="section-title">KEY COMMANDS</div>
+        <table class="mini-table">
+          <thead>
+            <tr><th>Command</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>obsidian open "Note Name"</td><td>Open a note in Obsidian</td></tr>
+            <tr><td>obsidian create "Note" --content "..."</td><td>Create a note programmatically</td></tr>
+            <tr><td>obsidian search "query"</td><td>Full-text search across vault</td></tr>
+            <tr><td>obsidian list --folder 10_wiki</td><td>List notes in a folder</td></tr>
+          </tbody>
+        </table>
+        <div class="divider"></div>
+        <div class="section-title">CLAUDE INTEGRATION</div>
+        <ul>
+          <li>Claude Code uses the CLI to create and manage notes when Obsidian is running</li>
+          <li>Configured in CLAUDE.md &rarr; Obsidian Integration section</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Slide 9: Vault Folder Structure -->
+    <div class="slide" style="--level-color: var(--accent-cyan)">
+      <div class="card">
+        <div class="slide-icon">&#x1F4C2;</div>
+        <h2>Vault Folder Structure</h2>
+        <div class="tagline">Numbered prefixes keep folders in logical order</div>
+        <div class="divider"></div>
+        <div class="folder-tree">
+          <div class="tree-root"><span class="tree-icon folder-icon">&#x1F4C1;</span> Vault/</div>
+          <ul class="tree">
+            <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">00_raw/</span> <span class="tree-desc">Drop zone &mdash; unprocessed files</span></li>
+            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">10_wiki/</span> <span class="tree-desc">Processed knowledge base</span>
+              <ul>
+                <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">11_entities/</span> <span class="tree-desc">People, companies, tools</span></li>
+                <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">12_concepts/</span> <span class="tree-desc">Ideas, frameworks, techniques</span></li>
+                <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">13_logs/</span> <span class="tree-desc">Activity log, meeting notes</span>
+                  <ul>
+                    <li><span class="tree-icon file-icon">&#x1F4C4;</span> <span class="tree-name">log.md</span> <span class="tree-desc">Chronological vault activity</span></li>
+                  </ul>
+                </li>
+                <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">14_daily/</span> <span class="tree-desc">Daily session notes</span>
+                  <ul>
+                    <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">141_summaries/</span> <span class="tree-desc">Recaps from /reflect</span></li>
+                  </ul>
+                </li>
+                <li><span class="tree-icon file-icon">&#x1F4C4;</span> <span class="tree-name">index.md</span> <span class="tree-desc">Master index</span></li>
+              </ul>
+            </li>
+            <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">20_para/</span> <span class="tree-desc">Projects, Areas, Resources, Archive</span></li>
+            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">30_zettelkasten/</span> <span class="tree-desc">Atomic, linked notes</span>
+              <ul>
+                <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">31_permanent/</span> <span class="tree-desc">Promoted insights</span></li>
+              </ul>
+            </li>
+            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">90_meta/</span> <span class="tree-desc">Configuration and memory</span>
+              <ul>
+                <li><span class="tree-icon file-icon">&#x1F4C4;</span> <span class="tree-name">user.md</span> <span class="tree-desc">Owner profile</span></li>
+                <li><span class="tree-icon file-icon">&#x1F4C4;</span> <span class="tree-name">memory.md</span> <span class="tree-desc">Decisions, feedback, context</span></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="section-title">DESIGN PRINCIPLES</div>
+        <ul>
+          <li>Numbered prefixes (00_, 10_, 20_...) ensure consistent sort order</li>
+          <li>Each folder has a clear responsibility &mdash; no ambiguous dumping grounds</li>
+          <li><span class="detail-link" onclick="openModal('ingestion')">00_raw &rarr; 10_wiki is the ingestion pipeline (Claude automates this)</span></li>
+          <li>90_meta is the 'brain' &mdash; Claude reads it at every session start</li>
+        </ul>
+        <div class="click-hint">Click the dashed link above for details</div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Memory Architecture -->
+    <div class="slide" style="--level-color: var(--accent-green)">
+      <div class="card">
+        <div class="slide-icon">&#x1F3D7;&#xFE0F;</div>
+        <h2>Memory Architecture</h2>
+        <div class="tagline">Two-tier memory: chronological logs + synthesized permanent memory</div>
+        <div class="divider"></div>
+        <table class="mini-table">
+          <thead>
+            <tr><th>Memory Type</th><th>Destination</th><th>Method</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>User profile</td><td>90_meta/user.md</td><td>Update sections in-place</td></tr>
+            <tr><td>Feedback</td><td>90_meta/memory.md</td><td>Synthesize under ## Feedback</td></tr>
+            <tr><td>References</td><td>90_meta/memory.md</td><td>Add under ## References</td></tr>
+            <tr><td>Project logs</td><td>13_logs/log.md</td><td>Append dated one-liner</td></tr>
+            <tr><td>Insights</td><td>31_permanent/*.md</td><td>Atomic note with frontmatter</td></tr>
+          </tbody>
+        </table>
+        <div class="divider"></div>
+        <div class="section-title">KEY CONCEPT: COMPACTION</div>
+        <ul>
+          <li>Daily notes accumulate verbose session context throughout the day</li>
+          <li>At session end, /reflect extracts the top 3 insights by lasting impact</li>
+          <li>Insights are promoted: to memory.md, user.md, or 31_permanent/ notes</li>
+          <li>Daily note is marked 'compacted' &mdash; original content preserved, summary added</li>
+          <li><span class="detail-link" onclick="openModal('compaction')">Permanent memory stays concise while nothing is lost</span></li>
+        </ul>
+        <div class="click-hint">Click the dashed link above for details</div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Prompts — Initial Vault Setup -->
+    <div class="slide" style="--level-color: var(--accent-red)">
+      <div class="card">
+        <div class="slide-icon">&#x1F680;</div>
+        <h2>Prompts &mdash; Initial Vault Setup</h2>
+        <div class="tagline">Copy-paste these prompts to bootstrap your vault</div>
+        <div class="divider"></div>
+        <div class="section-title">PROMPT 1: INITIALIZE THE VAULT</div>
+        <div class="code-block">Create a Personal Knowledge Vault at ~/Documents/Vault/ with
+this structure: 00_raw/, 10_wiki/ (with 11_entities/,
+12_concepts/, 13_logs/, 14_daily/, 14_daily/141_summaries/,
+index.md), 20_para/, 30_zettelkasten/31_permanent/, and
+90_meta/ (with user.md and memory.md). Add YAML frontmatter
+to all .md files. Create a CLAUDE.md at the vault root that
+defines you as an AI Chief of Staff responsible for ingestion,
+bookkeeping, memory management, and Obsidian integration.</div>
+        <div class="divider"></div>
+        <div class="section-title">PROMPT 2: CONSOLIDATE EXISTING MEMORIES</div>
+        <div class="code-block">Read all existing auto-memories from ~/.claude/projects/
+across all project directories. Consolidate them into the
+Vault: user preferences &rarr; 90_meta/user.md, feedback/lessons
+&rarr; 90_meta/memory.md under ## Feedback, references &rarr;
+90_meta/memory.md under ## References, project context &rarr;
+90_meta/memory.md under ## Active Context. Synthesize
+duplicates &mdash; don't just concatenate.</div>
+      </div>
+    </div>
+
+    <!-- Slide 12: Prompts — Skills, Hooks & Routing -->
+    <div class="slide" style="--level-color: var(--accent-purple)">
+      <div class="card">
+        <div class="slide-icon">&#x2699;&#xFE0F;</div>
+        <h2>Prompts &mdash; Skills, Hooks &amp; Routing</h2>
+        <div class="tagline">Configure Claude to automatically maintain the vault</div>
+        <div class="divider"></div>
+        <div class="section-title">PROMPT 3: MEMORY ROUTING RULES</div>
+        <div class="code-block">Add a "Memory Routing" section to ~/.claude/CLAUDE.md that
+overrides default auto-memory behavior. All memories must
+route to the Vault: user &rarr; 90_meta/user.md, feedback &rarr;
+90_meta/memory.md ## Feedback, reference &rarr; 90_meta/memory.md
+## References, project &rarr; 13_logs/log.md. Never create
+individual .md memory files or MEMORY.md index.</div>
+        <div class="divider"></div>
+        <div class="section-title">PROMPT 4: CREATE THE /REFLECT SKILL</div>
+        <div class="code-block">Create a global skill at ~/.claude/skills/reflect/SKILL.md
+that performs end-of-day memory compaction: (1) gather
+today's modified files, (2) check for contradictions with
+permanent notes, (3) promote top 3 insights, (4) fill wiki
+gaps for unrepresented entities/concepts, (5) clean orphan
+notes, (6) generate a recap summary, (7) compact the daily
+note, (8) update the log.</div>
+        <div class="divider"></div>
+        <div class="section-title">PROMPT 5: ADD STOP HOOK REMINDER</div>
+        <div class="code-block">Add a Stop hook to ~/.claude/settings.json that reminds me
+to run /reflect at the end of every session. Use an echo
+command with double quotes to avoid shell quoting issues.</div>
+      </div>
+    </div>
+
+    <!-- Slide 13: Closing -->
+    <div class="slide">
+      <div class="closing-content">
+        <h2>Your Second Brain, Maintained by AI</h2>
+        <div class="stat-row">
+          <div class="closing-stat">
+            <div class="cs-value">5</div>
+            <div class="cs-label">Setup Prompts</div>
+          </div>
+          <div class="closing-stat">
+            <div class="cs-value">8</div>
+            <div class="cs-label">Reflect Steps</div>
+          </div>
+          <div class="closing-stat">
+            <div class="cs-value">&infin;</div>
+            <div class="cs-label">Memory Retained</div>
+          </div>
+        </div>
+        <div class="closing-quote">Drop files in <strong>00_raw/</strong>, let Claude organize them. Make decisions, let Claude remember them. Run <strong>/reflect</strong> at day's end, let Claude distill wisdom from noise.</div>
+        <div class="disclaimer closing-disclaimer">
+          <div class="disclaimer-title">&#x26A0;&#xFE0F; Security Note</div>
+          <p>Remember the <strong>&ldquo;Lethal Trifecta&rdquo;</strong>: private data + untrusted web content + internet access = prompt injection risk. <strong>Never use full admin bypass</strong> on vaults with sensitive credentials outside a sandbox.</p>
+        </div>
+        <div class="verdict">BUILD YOUR VAULT TODAY &rarr;</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Navigation bar -->
+  <div class="nav-bar">
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&larr; Prev</button>
+    <div class="progress-dots" id="progressDots"></div>
+    <span class="slide-counter" id="slideCounter"></span>
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next &rarr;</button>
+  </div>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal(null, true)" aria-label="Close">&times;</button>
+      <h2 class="modal-header" id="modalHeader"></h2>
+      <div class="modal-tag" id="modalTag"></div>
+      <div class="modal-divider"></div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+// ══════════════════════════════════════════════════════════════
+// Presentation Base JS — Theme engine, modal, escape handler
+// Replace THEME_STORAGE_KEY with a unique key per presentation
+// ══════════════════════════════════════════════════════════════
+
+const darkThemes = ['navy', 'midnight', 'ember'];
+const themeLabels = { navy: 'Navy', midnight: 'Midnight', ember: 'Ember', frost: 'Frost', parchment: 'Parchment', steel: 'Steel' };
+let currentTheme = localStorage.getItem('pres-pkv-theme') || 'navy';
+
+function setTheme(name) {
+  document.documentElement.setAttribute('data-theme', name);
+  currentTheme = name;
+  localStorage.setItem('pres-pkv-theme', name);
+  const isDark = darkThemes.includes(name);
+  document.getElementById('themeIcon').innerHTML = isDark ? '&#9790;' : '&#9788;';
+  document.getElementById('themeName').textContent = themeLabels[name];
+  document.querySelectorAll('.theme-option').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === name);
+  });
+  closeThemeDropdown();
+}
+
+function toggleThemeDropdown() {
+  document.getElementById('themeDropdown').classList.toggle('open');
+}
+
+function closeThemeDropdown() {
+  document.getElementById('themeDropdown').classList.remove('open');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.theme-toggle')) closeThemeDropdown();
+});
+
+setTheme(currentTheme);
+
+// ── Modal ──
+let modalOpen = false;
+
+function closeModal(event, force) {
+  if (force || event.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+    modalOpen = false;
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && modalOpen) {
+    closeModal(e, true);
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// Slide Deck JS — Navigation, keyboard, touch, progress dots
+// Requires: base.js loaded first (provides modalOpen, closeModal)
+// ══════════════════════════════════════════════════════════════
+
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+let current = 0;
+
+// Build progress dots
+const dotsContainer = document.getElementById('progressDots');
+for (let i = 0; i < totalSlides; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+  dot.onclick = () => goTo(i);
+  dotsContainer.appendChild(dot);
+}
+
+function goTo(index) {
+  if (index < 0 || index >= totalSlides || index === current) return;
+  const dir = index > current ? 1 : -1;
+  const prev = slides[current];
+  const next = slides[index];
+
+  prev.classList.remove('active');
+  if (dir > 0) prev.classList.add('exit-left');
+
+  next.style.transition = 'none';
+  next.style.transform = dir > 0 ? 'translateX(60px)' : 'translateX(-60px)';
+  next.style.opacity = '0';
+  next.offsetHeight; // force reflow
+
+  next.style.transition = '';
+  next.classList.add('active');
+  next.style.transform = '';
+  next.style.opacity = '';
+
+  setTimeout(() => {
+    prev.classList.remove('exit-left');
+    prev.style.transform = '';
+    prev.style.opacity = '';
+  }, 500);
+
+  current = index;
+  updateUI();
+}
+
+function navigate(dir) {
+  goTo(current + dir);
+}
+
+function updateUI() {
+  document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + totalSlides;
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = current === totalSlides - 1;
+  const dots = dotsContainer.children;
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].classList.toggle('active', i === current);
+  }
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && modalOpen) { closeModal(e, true); return; }
+  if (modalOpen) return;
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+  if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+  if (e.key === 'End') { e.preventDefault(); goTo(totalSlides - 1); }
+});
+
+// Touch swipe
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  if (modalOpen) return;
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+});
+
+updateUI();
+
+// ── Content-specific JS: Modal data and opener ──
+var MODALS = {
+  ingestion: {
+    header: 'Ingestion Pipeline',
+    accent: 'var(--accent-cyan)',
+    tag: 'Vault Architecture',
+    body: '<p>The ingestion pipeline is how raw information becomes structured knowledge:</p>' +
+      '<h3>Step 1: Drop</h3>' +
+      '<p>Place any file \u2014 article, PDF, transcript, screenshot \u2014 into <strong>00_raw/</strong>.</p>' +
+      '<h3>Step 2: Classify</h3>' +
+      '<p>Claude reads the file, determines its type, and creates a clean wiki page with YAML frontmatter (title, created date, source, tags).</p>' +
+      '<h3>Step 3: Route</h3>' +
+      '<ul>' +
+        '<li><strong>11_entities/</strong> \u2014 People, companies, products, tools</li>' +
+        '<li><strong>12_concepts/</strong> \u2014 Ideas, frameworks, techniques, mental models</li>' +
+        '<li><strong>13_logs/</strong> \u2014 Dated entries, meeting notes, decisions</li>' +
+      '</ul>' +
+      '<h3>Step 4: Link</h3>' +
+      '<p>Claude adds [[WikiLinks]] to connect the new page to existing knowledge.</p>' +
+      '<h3>Step 5: Index</h3>' +
+      '<p>The master index at <strong>10_wiki/index.md</strong> is updated, and the activity is logged in <strong>13_logs/log.md</strong>.</p>'
+  },
+  compaction: {
+    header: 'The Compaction Cycle',
+    accent: 'var(--accent-green)',
+    tag: 'Memory Architecture',
+    body: '<p>Memory compaction is the daily discipline that keeps your vault healthy:</p>' +
+      '<h3>During the Day</h3>' +
+      '<p>Daily notes (<strong>14_daily/YYYY-MM-DD.md</strong>) accumulate rich session context \u2014 reasoning, decisions, debugging journeys, architectural discussions.</p>' +
+      '<h3>At Session End: /reflect</h3>' +
+      '<ul>' +
+        '<li>Scans all files modified today</li>' +
+        '<li>Ranks the <strong>top 3 insights</strong> by lasting impact</li>' +
+        '<li>Promotes insights to their correct destination: memory.md, user.md, or 31_permanent/</li>' +
+        '<li>Detects wiki gaps \u2014 mentions of people/tools/concepts without wiki pages</li>' +
+        '<li>Finds orphan notes \u2014 untitled, unlinked, or misplaced files</li>' +
+        '<li>Generates a recap summary in 141_summaries/</li>' +
+      '</ul>' +
+      '<h3>Result</h3>' +
+      '<div class="key-insight"><p>The daily note is marked \u201Ccompacted\u201D \u2014 original content preserved below a summary. The permanent memory (memory.md) stays under 200 lines. Nothing is lost, but the signal-to-noise ratio continuously improves.</p></div>'
+  },
+  zettelkasten: {
+    header: 'What Is the Zettelkasten Method?',
+    accent: 'var(--accent-yellow)',
+    tag: 'Knowledge Management',
+    body: '<p>The <strong>Zettelkasten</strong> (German for \u201Cslip box\u201D) is a note-taking method invented by sociologist <strong>Niklas Luhmann</strong>, who used it to publish over 70 books and 400 articles across dozens of fields.</p>' +
+      '<h3>Core Idea</h3>' +
+      '<p>Instead of organizing notes by topic or folder, every note is <strong>atomic</strong> \u2014 it captures exactly one idea \u2014 and is connected to other notes via explicit links. Knowledge emerges from the connections, not the categories.</p>' +
+      '<h3>The Three Note Types</h3>' +
+      '<ul>' +
+        '<li><strong>Fleeting notes</strong> \u2014 Quick captures, raw thoughts (our <strong>14_daily/</strong> notes)</li>' +
+        '<li><strong>Literature notes</strong> \u2014 Summaries of sources in your own words (our <strong>10_wiki/</strong> pages)</li>' +
+        '<li><strong>Permanent notes</strong> \u2014 Atomic, standalone insights written for your future self (our <strong>31_permanent/</strong> notes)</li>' +
+      '</ul>' +
+      '<h3>Why It\u2019s Worth the Learning Curve</h3>' +
+      '<ul>' +
+        '<li>Forces you to <strong>think before filing</strong> \u2014 writing an atomic note means you understood the idea</li>' +
+        '<li>Connections between notes surface <strong>non-obvious relationships</strong> across domains</li>' +
+        '<li>Your vault becomes a <strong>thinking partner</strong>, not just a storage system</li>' +
+        '<li>Notes compound in value over time \u2014 old notes get discovered in new contexts</li>' +
+      '</ul>' +
+      '<h3>The Challenge</h3>' +
+      '<div class="key-insight"><p>The habit of writing atomic, well-linked notes is a skill. Most people default to copying highlights or dumping session logs. The /reflect skill helps by <strong>automatically promoting</strong> daily noise into permanent atomic notes \u2014 so the Zettelkasten builds itself over time.</p></div>'
+  }
+};
+
+function openModal(id) {
+  var data = MODALS[id];
+  if (!data) return;
+  var overlay = document.getElementById('modalOverlay');
+  document.getElementById('modalHeader').textContent = data.header;
+  document.getElementById('modalTag').textContent = data.tag;
+  document.getElementById('modalBody').innerHTML = data.body;
+  overlay.querySelector('.modal-content').style.setProperty('--modal-accent', data.accent);
+  overlay.classList.add('open');
+  modalOpen = true;
+}
+  </script>
+</body>
+</html>
