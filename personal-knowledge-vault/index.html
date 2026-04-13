@@ -1283,7 +1283,7 @@ body {
         <div class="section-title">MUST-HAVE PLUGINS</div>
         <ul>
           <li><strong>Terminal</strong> &mdash; Run Claude Code directly inside Obsidian (Cmd+`)</li>
-          <li><strong>Obsidian Web Clipper</strong> &mdash; Capture web pages directly into 00_raw/</li>
+          <li><strong>Obsidian Web Clipper</strong> &mdash; Browser extension to capture web pages directly into 00_raw/</li>
           <li><strong>Excalidraw</strong> &mdash; Visual diagrams and sketches embedded in notes</li>
           <li><strong>Graph View</strong> &mdash; Explore connections between notes visually</li>
         </ul>
@@ -1307,11 +1307,12 @@ body {
         <div class="tagline">Control Obsidian from the terminal &mdash; perfect for Claude Code integration</div>
         <div class="divider"></div>
         <div class="section-title">INSTALLATION</div>
-        <div class="code-block"><span style="color:var(--text-muted)"># Install via npm (Node.js required)</span>
-npm install -g obsidian-cli
-
-<span style="color:var(--text-muted)"># Verify installation</span>
-obsidian --version</div>
+        <ul>
+          <li>Upgrade to the latest Obsidian installer (<strong>1.12.7+</strong>)</li>
+          <li>Go to <strong>Settings &rarr; General</strong></li>
+          <li>Enable <strong>Command line interface</strong></li>
+          <li>Follow the prompt to register the CLI in your shell</li>
+        </ul>
         <div class="divider"></div>
         <div class="section-title">KEY COMMANDS</div>
         <table class="mini-table">
