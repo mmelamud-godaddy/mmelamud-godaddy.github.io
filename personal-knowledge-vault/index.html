@@ -1429,14 +1429,18 @@ body {
         <div class="tagline">Copy-paste these prompts to bootstrap your vault</div>
         <div class="divider"></div>
         <div class="section-title">PROMPT 1: INITIALIZE THE VAULT</div>
-        <div class="code-block">Create a Personal Knowledge Vault at ~/Documents/Vault/ with
-this structure: 00_raw/, 10_wiki/ (with 11_entities/,
-12_concepts/, 13_logs/, 14_daily/, 14_daily/141_summaries/,
-index.md), 20_para/, 30_zettelkasten/31_permanent/, and
-90_meta/ (with user.md and memory.md). Add YAML frontmatter
-to all .md files. Create a CLAUDE.md at the vault root that
-defines you as an AI Chief of Staff responsible for ingestion,
-bookkeeping, memory management, and Obsidian integration.</div>
+        <div class="code-block">Initialize this directory as my Personal Knowledge Vault.
+Create a CLAUDE.md file that defines your role as my
+AI Chief of Staff. You are responsible for:
+1. Ingestion: When I drop files into 00_raw/, you will
+   summarize them and update the relevant pages in 10_Wiki/.
+2. Bookkeeping: Maintain a master 10_Wiki/index.md and a
+   chronological 10_Wiki/log.md.
+3. Memory: Read from 90_Meta/user.md (my preferences) and
+   90_Meta/memory.md (key decisions) at the start of every
+   session.
+4. Obsidian Integration: Use the obsidian CLI command to
+   create and link notes using [[WikiLinks]] format.</div>
         <div class="divider"></div>
         <div class="section-title">PROMPT 2: CONSOLIDATE EXISTING MEMORIES</div>
         <div class="code-block">Read all existing auto-memories from ~/.claude/projects/
