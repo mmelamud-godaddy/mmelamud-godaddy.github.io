@@ -907,6 +907,99 @@ body {
   opacity: 0.35;
 }
 
+/* ── Folder role badges ── */
+.tree-badge {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  margin-left: 0.5em;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+.badge-user {
+  color: var(--accent-green);
+  border: 1px solid color-mix(in srgb, var(--accent-green) 35%, transparent);
+  background: color-mix(in srgb, var(--accent-green) 8%, transparent);
+}
+.badge-ai {
+  color: var(--accent-purple);
+  border: 1px solid color-mix(in srgb, var(--accent-purple) 35%, transparent);
+  background: color-mix(in srgb, var(--accent-purple) 8%, transparent);
+}
+.badge-both {
+  color: var(--accent-yellow);
+  border: 1px solid color-mix(in srgb, var(--accent-yellow) 35%, transparent);
+  background: color-mix(in srgb, var(--accent-yellow) 8%, transparent);
+}
+.tree-legend {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0 0.3rem;
+  flex-wrap: wrap;
+}
+.tree-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: clamp(0.58rem, 0.95vw, 0.68rem);
+  color: var(--text-muted);
+}
+
+/* ── Prompt tabs ── */
+.prompt-tabs {
+  display: flex;
+  gap: 0.3rem;
+  margin: 0.5rem 0 0;
+  border-bottom: 1px solid var(--border-glow);
+  padding-bottom: 0;
+}
+.prompt-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: clamp(0.62rem, 1.05vw, 0.74rem);
+  font-weight: 500;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+.prompt-tab:hover {
+  color: var(--text-secondary);
+}
+.prompt-tab.active {
+  color: var(--level-color, var(--accent-purple));
+  border-bottom-color: var(--level-color, var(--accent-purple));
+}
+.prompt-panels {
+  position: relative;
+  min-height: 10rem;
+}
+.prompt-panel {
+  display: none;
+  padding: 0.6rem 0 0;
+}
+.prompt-panel.active {
+  display: block;
+}
+.prompt-panel .code-block {
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text;
+}
+.prompt-panel .copy-hint {
+  font-size: clamp(0.55rem, 0.85vw, 0.64rem);
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 0.3rem;
+  opacity: 0.7;
+}
+
 /* ── TOC slide ── */
 .toc-grid {
   display: grid;
@@ -970,8 +1063,14 @@ body {
   grid-column: 1 / -1;
   padding: 0.3rem 0 0;
 }
+.toc-item.toc-centered {
+  grid-column: 1 / -1;
+  max-width: 50%;
+  justify-self: center;
+}
 @media (max-width: 600px) {
   .toc-grid { grid-template-columns: 1fr; }
+  .toc-item.toc-centered { max-width: 100%; }
 }
 
 /* ── Security disclaimer ── */
@@ -1083,7 +1182,7 @@ body {
               <div class="toc-desc">What a well-maintained PKV gives you</div>
             </div>
           </a>
-          <a class="toc-item" onclick="goTo(4)">
+          <a class="toc-item toc-centered" onclick="goTo(4)">
             <span class="toc-icon">&#x2696;&#xFE0F;</span>
             <div class="toc-text">
               <div class="toc-title">Pros &amp; Cons</div>
@@ -1106,7 +1205,7 @@ body {
               <div class="toc-desc">Must-have and nice-to-have community plugins</div>
             </div>
           </a>
-          <a class="toc-item" onclick="goTo(7)">
+          <a class="toc-item toc-centered" onclick="goTo(7)">
             <span class="toc-icon">&#x2328;&#xFE0F;</span>
             <div class="toc-text">
               <div class="toc-title">Obsidian CLI</div>
@@ -1342,11 +1441,16 @@ body {
         <h2>Vault Folder Structure</h2>
         <div class="tagline">Numbered prefixes keep folders in logical order</div>
         <div class="divider"></div>
+        <div class="tree-legend">
+          <span class="tree-legend-item"><span class="tree-badge badge-user">YOU</span> You write here</span>
+          <span class="tree-legend-item"><span class="tree-badge badge-ai">AI</span> Claude manages</span>
+          <span class="tree-legend-item"><span class="tree-badge badge-both">BOTH</span> Shared</span>
+        </div>
         <div class="folder-tree">
           <div class="tree-root"><span class="tree-icon folder-icon">&#x1F4C1;</span> Vault/</div>
           <ul class="tree">
-            <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">00_raw/</span> <span class="tree-desc">Drop zone &mdash; unprocessed files</span></li>
-            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">10_wiki/</span> <span class="tree-desc">Processed knowledge base</span>
+            <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">00_raw/</span> <span class="tree-badge badge-user">YOU</span> <span class="tree-desc">Drop zone &mdash; add files here, Claude consumes them</span></li>
+            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">10_wiki/</span> <span class="tree-badge badge-ai">AI</span> <span class="tree-desc">Processed knowledge base</span>
               <ul>
                 <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">11_entities/</span> <span class="tree-desc">People, companies, tools</span></li>
                 <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">12_concepts/</span> <span class="tree-desc">Ideas, frameworks, techniques</span></li>
@@ -1363,13 +1467,13 @@ body {
                 <li><span class="tree-icon file-icon">&#x1F4C4;</span> <span class="tree-name">index.md</span> <span class="tree-desc">Master index</span></li>
               </ul>
             </li>
-            <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">20_para/</span> <span class="tree-desc">Projects, Areas, Resources, Archive</span></li>
-            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">30_zettelkasten/</span> <span class="tree-desc">Atomic, linked notes</span>
+            <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">20_para/</span> <span class="tree-badge badge-user">YOU</span> <span class="tree-desc">Projects, Areas, Resources, Archive</span></li>
+            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">30_zettelkasten/</span> <span class="tree-badge badge-both">BOTH</span> <span class="tree-desc">Atomic, linked notes</span>
               <ul>
                 <li><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">31_permanent/</span> <span class="tree-desc">Promoted insights</span></li>
               </ul>
             </li>
-            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">90_meta/</span> <span class="tree-desc">Configuration and memory</span>
+            <li class="has-children"><span class="tree-icon folder-icon">&#x1F4C2;</span> <span class="tree-name">90_meta/</span> <span class="tree-badge badge-ai">AI</span> <span class="tree-desc">Configuration and memory</span>
               <ul>
                 <li><span class="tree-icon file-icon">&#x1F4C4;</span> <span class="tree-name">user.md</span> <span class="tree-desc">Owner profile</span></li>
                 <li><span class="tree-icon file-icon">&#x1F4C4;</span> <span class="tree-name">memory.md</span> <span class="tree-desc">Decisions, feedback, context</span></li>
@@ -1378,14 +1482,8 @@ body {
           </ul>
         </div>
         <div class="divider"></div>
-        <div class="section-title">DESIGN PRINCIPLES</div>
-        <ul>
-          <li>Numbered prefixes (00_, 10_, 20_...) ensure consistent sort order</li>
-          <li>Each folder has a clear responsibility &mdash; no ambiguous dumping grounds</li>
-          <li><span class="detail-link" onclick="openModal('ingestion')">00_raw &rarr; 10_wiki is the ingestion pipeline (Claude automates this)</span></li>
-          <li>90_meta is the 'brain' &mdash; Claude reads it at every session start</li>
-        </ul>
-        <div class="click-hint">Click the dashed link above for details</div>
+        <p style="font-size:clamp(0.7rem,1.2vw,0.82rem);color:var(--text-secondary);margin-top:0.4rem;">This entire structure is created automatically by the <strong>Initialize</strong> prompt &mdash; just create an empty folder, open Claude Code there, and run it.</p>
+        <p style="font-size:clamp(0.7rem,1.2vw,0.82rem);color:var(--text-secondary);margin-top:0.4rem;"><span class="detail-link" onclick="openModal('folderRoles')">How do I interact with these folders?</span></p>
       </div>
     </div>
 
@@ -1427,29 +1525,44 @@ body {
         <div class="slide-icon">&#x1F680;</div>
         <h2>Prompts &mdash; Initial Vault Setup</h2>
         <div class="tagline">Copy-paste these prompts to bootstrap your vault</div>
-        <div class="divider"></div>
-        <div class="section-title">PROMPT 1: INITIALIZE THE VAULT</div>
-        <div class="code-block">Initialize this directory as my Personal Knowledge Vault.
-Create a CLAUDE.md file that defines your role as my
+        <div class="prompt-tabs">
+          <button class="prompt-tab active" onclick="switchTab(event, 'tab1')">1: Initialize</button>
+          <button class="prompt-tab" onclick="switchTab(event, 'tab2')">2: Consolidate</button>
+        </div>
+        <div class="prompt-panels">
+          <div class="prompt-panel active" id="tab1">
+            <div class="section-title">INITIALIZE THE VAULT</div>
+            <div class="code-block">Initialize this directory as my Personal Knowledge Vault.
+Create the full folder structure (00_raw/, 10_wiki/ with
+11_entities/, 12_concepts/, 13_logs/, 14_daily/141_summaries/,
+20_para/, 30_zettelkasten/31_permanent/, 90_meta/) and seed
+the key files (90_meta/user.md, 90_meta/memory.md,
+13_logs/log.md, 10_wiki/index.md).
+Then create a CLAUDE.md file that defines your role as my
 AI Chief of Staff. You are responsible for:
 1. Ingestion: When I drop files into 00_raw/, you will
-   summarize them and update the relevant pages in 10_Wiki/.
-2. Bookkeeping: Maintain a master 10_Wiki/index.md and a
-   chronological 10_Wiki/log.md.
-3. Memory: Read from 90_Meta/user.md (my preferences) and
-   90_Meta/memory.md (key decisions) at the start of every
+   summarize them and update the relevant pages in 10_wiki/.
+2. Bookkeeping: Maintain a master 10_wiki/index.md and a
+   chronological 13_logs/log.md.
+3. Memory: Read from 90_meta/user.md (my preferences) and
+   90_meta/memory.md (key decisions) at the start of every
    session.
 4. Obsidian Integration: Use the obsidian CLI command to
    create and link notes using [[WikiLinks]] format.</div>
-        <div class="divider"></div>
-        <div class="section-title">PROMPT 2: CONSOLIDATE EXISTING MEMORIES</div>
-        <div class="code-block">Read all existing auto-memories from ~/.claude/projects/
+            <div class="copy-hint">Select text above to copy</div>
+          </div>
+          <div class="prompt-panel" id="tab2">
+            <div class="section-title">CONSOLIDATE EXISTING MEMORIES</div>
+            <div class="code-block">Read all existing auto-memories from ~/.claude/projects/
 across all project directories. Consolidate them into the
 Vault: user preferences &rarr; 90_meta/user.md, feedback/lessons
 &rarr; 90_meta/memory.md under ## Feedback, references &rarr;
 90_meta/memory.md under ## References, project context &rarr;
 90_meta/memory.md under ## Active Context. Synthesize
 duplicates &mdash; don't just concatenate.</div>
+            <div class="copy-hint">Select text above to copy</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1459,17 +1572,27 @@ duplicates &mdash; don't just concatenate.</div>
         <div class="slide-icon">&#x2699;&#xFE0F;</div>
         <h2>Prompts &mdash; Skills, Hooks &amp; Routing</h2>
         <div class="tagline">Configure Claude to automatically maintain the vault</div>
-        <div class="divider"></div>
-        <div class="section-title">PROMPT 3: MEMORY ROUTING RULES</div>
-        <div class="code-block">Add a "Memory Routing" section to ~/.claude/CLAUDE.md that
-overrides default auto-memory behavior. All memories must
-route to the Vault: user &rarr; 90_meta/user.md, feedback &rarr;
+        <div class="prompt-tabs">
+          <button class="prompt-tab active" onclick="switchTab(event, 'tab3')">3: Routing</button>
+          <button class="prompt-tab" onclick="switchTab(event, 'tab4')">4: /reflect</button>
+          <button class="prompt-tab" onclick="switchTab(event, 'tab5')">5: /check-stale</button>
+          <button class="prompt-tab" onclick="switchTab(event, 'tab6')">6: Stop Hook</button>
+        </div>
+        <div class="prompt-panels">
+          <div class="prompt-panel active" id="tab3">
+            <div class="section-title">MEMORY ROUTING RULES</div>
+            <div class="code-block">Add a "Memory Routing" section to ~/.claude/CLAUDE.md.
+Do NOT use the default ~/.claude/projects/.../memory/
+directory. All memories route to the Vault for every
+project: user &rarr; 90_meta/user.md, feedback &rarr;
 90_meta/memory.md ## Feedback, reference &rarr; 90_meta/memory.md
-## References, project &rarr; 13_logs/log.md. Never create
-individual .md memory files or MEMORY.md index.</div>
-        <div class="divider"></div>
-        <div class="section-title">PROMPT 4: CREATE THE /REFLECT SKILL</div>
-        <div class="code-block">Create a global skill at ~/.claude/skills/reflect/SKILL.md
+## References, project &rarr; 10_wiki/13_logs/log.md. Never
+create individual .md memory files or MEMORY.md index.</div>
+            <div class="copy-hint">Select text above to copy</div>
+          </div>
+          <div class="prompt-panel" id="tab4">
+            <div class="section-title">CREATE THE /REFLECT SKILL</div>
+            <div class="code-block">Create a global skill at ~/.claude/skills/reflect/SKILL.md
 that performs end-of-day memory compaction:
 (0) load procedures from 90_meta/memory-procedures.md,
 (1) gather today's modified files + read memory state,
@@ -1480,9 +1603,11 @@ light mode (skip to step 2 &amp; 8 only),
 (4) fill wiki gaps, (5) clean orphans,
 (6) generate recap in 141_summaries/,
 (7) compact the daily note, (8) update log.</div>
-        <div class="divider"></div>
-        <div class="section-title">PROMPT 5: CREATE THE /CHECK-STALE SKILL</div>
-        <div class="code-block">Create a global skill at ~/.claude/skills/check-stale/
+            <div class="copy-hint">Select text above to copy</div>
+          </div>
+          <div class="prompt-panel" id="tab5">
+            <div class="section-title">CREATE THE /CHECK-STALE SKILL</div>
+            <div class="code-block">Create a global skill at ~/.claude/skills/check-stale/
 SKILL.md &mdash; a lightweight session-start freshness scan.
 No daily notes, no recaps, no promotion. Just verify:
 (1) read memory.md Active Context + Open Questions,
@@ -1490,11 +1615,16 @@ No daily notes, no recaps, no promotion. Just verify:
 git state, (3) check if Open Questions are answered by
 recent commits, (4) spot-check permanent notes for stale
 refs, (5) fix entries in-place and report.</div>
-        <div class="divider"></div>
-        <div class="section-title">PROMPT 6: ADD STOP HOOK REMINDER</div>
-        <div class="code-block">Add a Stop hook to ~/.claude/settings.json that reminds me
+            <div class="copy-hint">Select text above to copy</div>
+          </div>
+          <div class="prompt-panel" id="tab6">
+            <div class="section-title">ADD STOP HOOK REMINDER</div>
+            <div class="code-block">Add a Stop hook to ~/.claude/settings.json that reminds me
 to run /reflect at the end of every session. Use an echo
 command with double quotes to avoid shell quoting issues.</div>
+            <div class="copy-hint">Select text above to copy</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1683,13 +1813,47 @@ updateUI();
 
 // ── Content-specific JS: Modal data and opener ──
 var MODALS = {
+  folderRoles: {
+    header: 'Folder Interaction Guide',
+    accent: 'var(--accent-cyan)',
+    tag: 'Vault Architecture',
+    body: '<p>Each folder has a clear owner. Understanding who writes where prevents conflicts with automated processing.</p>' +
+      '<h3>00_raw/ — Your Drop Zone</h3>' +
+      '<ul>' +
+        '<li>Drop any file here: articles, PDFs, transcripts, screenshots</li>' +
+        '<li>Claude <strong>consumes and deletes</strong> files after processing them into 10_wiki/</li>' +
+        '<li>Never store anything here permanently — treat it as an inbox</li>' +
+      '</ul>' +
+      '<h3>10_wiki/ — AI-Managed</h3>' +
+      '<ul>' +
+        '<li>Claude creates and maintains all pages here</li>' +
+        '<li>You can <strong>read and browse</strong> freely</li>' +
+        '<li>Avoid creating files here manually — they may conflict with indexing</li>' +
+      '</ul>' +
+      '<h3>20_para/ — Your Space</h3>' +
+      '<ul>' +
+        '<li>Organize your Projects, Areas, Resources, and Archive however you like</li>' +
+        '<li>Claude does not auto-manage this folder</li>' +
+      '</ul>' +
+      '<h3>30_zettelkasten/ — Shared</h3>' +
+      '<ul>' +
+        '<li>You can write atomic notes here anytime</li>' +
+        '<li>The /reflect skill also promotes insights into 31_permanent/</li>' +
+      '</ul>' +
+      '<h3>90_meta/ — AI-Managed</h3>' +
+      '<ul>' +
+        '<li>Claude reads this at every session start — it is the "brain"</li>' +
+        '<li>You <em>can</em> edit user.md or memory.md, but be careful not to break the structure</li>' +
+      '</ul>' +
+      '<div class="key-insight"><p>Dropping files outside 00_raw/ will not break anything — they simply will not be auto-processed. Only 00_raw/ triggers the ingestion pipeline.</p></div>'
+  },
   ingestion: {
     header: 'Ingestion Pipeline',
     accent: 'var(--accent-cyan)',
     tag: 'Vault Architecture',
     body: '<p>The ingestion pipeline is how raw information becomes structured knowledge:</p>' +
       '<h3>Step 1: Drop</h3>' +
-      '<p>Place any file \u2014 article, PDF, transcript, screenshot \u2014 into <strong>00_raw/</strong>.</p>' +
+      '<p>Place any file \u2014 article, PDF, transcript, screenshot \u2014 into <strong>00_raw/</strong>. This is the <em>only</em> folder designed for user drops. Files placed directly into 10_wiki/ or other AI-managed folders won\u2019t be auto-processed and may conflict with Claude\u2019s indexing.</p>' +
       '<h3>Step 2: Classify</h3>' +
       '<p>Claude reads the file, determines its type, and creates a clean wiki page with YAML frontmatter (title, created date, source, tags).</p>' +
       '<h3>Step 3: Route</h3>' +
@@ -1701,7 +1865,9 @@ var MODALS = {
       '<h3>Step 4: Link</h3>' +
       '<p>Claude adds [[WikiLinks]] to connect the new page to existing knowledge.</p>' +
       '<h3>Step 5: Index</h3>' +
-      '<p>The master index at <strong>10_wiki/index.md</strong> is updated, and the activity is logged in <strong>13_logs/log.md</strong>.</p>'
+      '<p>The master index at <strong>10_wiki/index.md</strong> is updated, and the activity is logged in <strong>13_logs/log.md</strong>.</p>' +
+      '<h3>What Happens to the Original File?</h3>' +
+      '<p>After processing, the original file is <strong>deleted from 00_raw/</strong>. The content now lives as a structured wiki page. Think of 00_raw/ as an inbox that gets emptied — never store anything there permanently.</p>'
   },
   compaction: {
     header: 'The Compaction Cycle',
@@ -1766,6 +1932,14 @@ function openModal(id) {
   overlay.querySelector('.modal-content').style.setProperty('--modal-accent', data.accent);
   overlay.classList.add('open');
   modalOpen = true;
+}
+
+function switchTab(event, panelId) {
+  var container = event.target.closest('.card');
+  container.querySelectorAll('.prompt-tab').forEach(function(t) { t.classList.remove('active'); });
+  container.querySelectorAll('.prompt-panel').forEach(function(p) { p.classList.remove('active'); });
+  event.target.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
 }
   </script>
 </body>
