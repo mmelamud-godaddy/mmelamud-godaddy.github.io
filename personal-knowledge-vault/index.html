@@ -1142,7 +1142,7 @@ body {
             <span class="toc-icon">&#x2699;&#xFE0F;</span>
             <div class="toc-text">
               <div class="toc-title">Skills, Hooks &amp; Routing</div>
-              <div class="toc-desc">Automate vault maintenance with Claude</div>
+              <div class="toc-desc">/reflect, /check-stale, and memory routing</div>
             </div>
           </a>
         </div>
@@ -1409,12 +1409,12 @@ body {
           </tbody>
         </table>
         <div class="divider"></div>
-        <div class="section-title">KEY CONCEPT: COMPACTION</div>
+        <div class="section-title">KEY CONCEPT: TWO-SKILL MAINTENANCE</div>
         <ul>
-          <li>Daily notes accumulate verbose session context throughout the day</li>
-          <li>At session end, /reflect extracts the top 3 insights by lasting impact</li>
-          <li>Insights are promoted: to memory.md, user.md, or 31_permanent/ notes</li>
-          <li>Daily note is marked 'compacted' &mdash; original content preserved, summary added</li>
+          <li><strong>/check-stale</strong> at session start &mdash; verifies memory against git state, fixes stale refs</li>
+          <li><strong>/reflect</strong> at session end &mdash; triages the day (light vs full mode)</li>
+          <li>Full mode: extracts top 3 insights, promotes to memory.md/user.md/31_permanent/</li>
+          <li>Light mode: only checks contradictions and updates the log (quiet days stay quiet)</li>
           <li><span class="detail-link" onclick="openModal('compaction')">Permanent memory stays concise while nothing is lost</span></li>
         </ul>
         <div class="click-hint">Click the dashed link above for details</div>
@@ -1470,14 +1470,28 @@ individual .md memory files or MEMORY.md index.</div>
         <div class="divider"></div>
         <div class="section-title">PROMPT 4: CREATE THE /REFLECT SKILL</div>
         <div class="code-block">Create a global skill at ~/.claude/skills/reflect/SKILL.md
-that performs end-of-day memory compaction: (1) gather
-today's modified files, (2) check for contradictions with
-permanent notes, (3) promote top 3 insights, (4) fill wiki
-gaps for unrepresented entities/concepts, (5) clean orphan
-notes, (6) generate a recap summary, (7) compact the daily
-note, (8) update the log.</div>
+that performs end-of-day memory compaction:
+(0) load procedures from 90_meta/memory-procedures.md,
+(1) gather today's modified files + read memory state,
+(1.5) triage: HIGH-SIGNAL &rarr; full mode, EXECUTION &rarr;
+light mode (skip to step 2 &amp; 8 only),
+(2) check contradictions with permanent notes,
+(3) promote top 3 insights by lasting impact,
+(4) fill wiki gaps, (5) clean orphans,
+(6) generate recap in 141_summaries/,
+(7) compact the daily note, (8) update log.</div>
         <div class="divider"></div>
-        <div class="section-title">PROMPT 5: ADD STOP HOOK REMINDER</div>
+        <div class="section-title">PROMPT 5: CREATE THE /CHECK-STALE SKILL</div>
+        <div class="code-block">Create a global skill at ~/.claude/skills/check-stale/
+SKILL.md &mdash; a lightweight session-start freshness scan.
+No daily notes, no recaps, no promotion. Just verify:
+(1) read memory.md Active Context + Open Questions,
+(2) verify branch refs, file paths, status claims against
+git state, (3) check if Open Questions are answered by
+recent commits, (4) spot-check permanent notes for stale
+refs, (5) fix entries in-place and report.</div>
+        <div class="divider"></div>
+        <div class="section-title">PROMPT 6: ADD STOP HOOK REMINDER</div>
         <div class="code-block">Add a Stop hook to ~/.claude/settings.json that reminds me
 to run /reflect at the end of every session. Use an echo
 command with double quotes to avoid shell quoting issues.</div>
@@ -1490,19 +1504,19 @@ command with double quotes to avoid shell quoting issues.</div>
         <h2>Your Second Brain, Maintained by AI</h2>
         <div class="stat-row">
           <div class="closing-stat">
-            <div class="cs-value">5</div>
+            <div class="cs-value">6</div>
             <div class="cs-label">Setup Prompts</div>
           </div>
           <div class="closing-stat">
-            <div class="cs-value">8</div>
-            <div class="cs-label">Reflect Steps</div>
+            <div class="cs-value">2</div>
+            <div class="cs-label">Skills</div>
           </div>
           <div class="closing-stat">
             <div class="cs-value">&infin;</div>
             <div class="cs-label">Memory Retained</div>
           </div>
         </div>
-        <div class="closing-quote">Drop files in <strong>00_raw/</strong>, let Claude organize them. Make decisions, let Claude remember them. Run <strong>/reflect</strong> at day's end, let Claude distill wisdom from noise.</div>
+        <div class="closing-quote">Drop files in <strong>00_raw/</strong>, let Claude organize them. Run <strong>/check-stale</strong> at session start to verify memory. Run <strong>/reflect</strong> at day's end to distill wisdom from noise.</div>
         <div class="disclaimer closing-disclaimer">
           <div class="disclaimer-title">&#x26A0;&#xFE0F; Security Note</div>
           <p>Remember the <strong>&ldquo;Lethal Trifecta&rdquo;</strong>: private data + untrusted web content + internet access = prompt injection risk. <strong>Never use full admin bypass</strong> on vaults with sensitive credentials outside a sandbox.</p>
@@ -1696,17 +1710,26 @@ var MODALS = {
     body: '<p>Memory compaction is the daily discipline that keeps your vault healthy:</p>' +
       '<h3>During the Day</h3>' +
       '<p>Daily notes (<strong>14_daily/YYYY-MM-DD.md</strong>) accumulate rich session context \u2014 reasoning, decisions, debugging journeys, architectural discussions.</p>' +
+      '<h3>At Session Start: /check-stale</h3>' +
+      '<ul>' +
+        '<li>Verifies Active Context entries against git state (branches, SHAs, file paths)</li>' +
+        '<li>Checks if Open Questions have been answered by recent commits</li>' +
+        '<li>Spot-checks permanent notes for stale references</li>' +
+        '<li>Fixes entries in-place \u2014 no new artifacts created</li>' +
+      '</ul>' +
       '<h3>At Session End: /reflect</h3>' +
       '<ul>' +
+        '<li>Loads procedures from <strong>90_meta/memory-procedures.md</strong></li>' +
         '<li>Scans all files modified today</li>' +
-        '<li>Ranks the <strong>top 3 insights</strong> by lasting impact</li>' +
-        '<li>Promotes insights to their correct destination: memory.md, user.md, or 31_permanent/</li>' +
-        '<li>Detects wiki gaps \u2014 mentions of people/tools/concepts without wiki pages</li>' +
-        '<li>Finds orphan notes \u2014 untitled, unlinked, or misplaced files</li>' +
-        '<li>Generates a recap summary in 141_summaries/</li>' +
+        '<li><strong>Triage:</strong> classifies day as HIGH-SIGNAL (full mode) or EXECUTION (light mode \u2014 skips promotion, wiki, orphans, recap)</li>' +
+        '<li>Checks for contradictions with permanent notes</li>' +
+        '<li>Ranks the <strong>top 3 insights</strong> by lasting impact (full mode only)</li>' +
+        '<li>Promotes insights to memory.md, user.md, or 31_permanent/ (full mode only)</li>' +
+        '<li>Fills wiki gaps and cleans orphan notes (full mode only)</li>' +
+        '<li>Generates a recap summary in 141_summaries/ (full mode only)</li>' +
       '</ul>' +
       '<h3>Result</h3>' +
-      '<div class="key-insight"><p>The daily note is marked \u201Ccompacted\u201D \u2014 original content preserved below a summary. The permanent memory (memory.md) stays under 200 lines. Nothing is lost, but the signal-to-noise ratio continuously improves.</p></div>'
+      '<div class="key-insight"><p>The daily note is marked \u201Ccompacted\u201D \u2014 original content preserved below a summary. The permanent memory (memory.md) stays under 200 lines. Light mode ensures quiet days don\u2019t generate noise. Nothing is lost, but the signal-to-noise ratio continuously improves.</p></div>'
   },
   zettelkasten: {
     header: 'What Is the Zettelkasten Method?',
